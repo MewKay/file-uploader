@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("partials/head.ejs", { title }) %>
+  </head>
+  <body>
+    <main>
+      <form action="/sign-up" method="post">
+        <h3>Create your account</h3>
+
+        <% if (locals.validationErrors) { %>
+          <ul class="error-messages">
+            <% validationErrors.forEach((error) => { %>
+              <li><%= error.msg %></li>
+            <% }) %>    
+          </ul>
+        <% } %>
+
+        <div class="username-container input">
+          <label for="username-input">
+            Username <span class="required">*</span>
+          </label>
+          <input
+            id="username-input"
+            type="text"
+            minlength="4"
+            maxlength="15"
+            name="username"
+            required
+          />
+        </div>
+
+        <div class="password-container input">
+          <label for="password-input">
+            Password <span class="required">*</span>
+          </label>
+          <input
+            id="password-input"
+            type="password"
+            minlength="8"
+            name="password"
+            required
+          />
+        </div>
+
+        <div class="confirm-password-container input">
+          <label for="confirm-password-input">
+            Confirm password <span class="required">*</span>
+          </label>
+          <input
+            id="confirm-password-input"
+            type="password"
+            minlength="8"
+            name="confirm_password"
+            required
+          />
+        </div>
+
+        <button type="submit">Register</button>
+      </form>
+
+      <div class="prompt">
+        <p>Already have an account? <a href="/log-in">Log in here.</a></p>
+      </div>
+    </main>
+  </body>
+</html>
