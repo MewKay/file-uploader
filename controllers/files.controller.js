@@ -1,5 +1,5 @@
 const filesGet = (req, res) => {
-  res.send("This is files index");
+  res.render("files", { title: "Your Files" });
 };
 
 module.exports = { filesGet };
