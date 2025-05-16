@@ -3,6 +3,6 @@ const controller = require("../controllers/files.controller");
 const { isAuth } = require("../middlewares/auth");
 
 router.use(isAuth);
-router.get("/", controller.filesGet);
+router.get("/{*folderPathParams}", controller.filesGet);
 
 module.exports = router;

@@ -25,7 +25,7 @@ const signUpPost = [
     });
     await prisma.folder.create({
       data: {
-        name: "root",
+        name: "Your Files",
         path: "/",
         is_root: true,
         owner_id: newUserId,

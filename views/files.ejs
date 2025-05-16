@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <%- include("partials/head.ejs") %>
+    <%- include("partials/head.ejs", { title: currentFolderName}) %>
   </head>
   <body>
     <main>
       <div class="heading">
-        <h3>Folder name</h3>
+        <h3><%= currentFolderName %></h3>
         <button>Create a new folder</button>
       </div>
       <div class="files-content">
