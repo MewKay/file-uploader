@@ -10,6 +10,9 @@ const filesGet = async (req, res) => {
     folderPathParams = ["/"];
     currentFolderName = "Your Files";
   } else {
+    folderPathParams = folderPathParams.filter(
+      (folderParam) => folderParam !== "",
+    );
     currentFolderName = folderPathParams.pop();
   }
 
@@ -21,7 +24,16 @@ const filesGet = async (req, res) => {
     },
   });
 
-  res.render("files", { currentFolderName: currentFolder.name });
+  const currentFolderList = await prisma.folder.findMany({
+    where: {
+      parent_id: currentFolder.id,
+    },
+  });
+
+  res.render("files", {
+    currentFolder,
+    currentFolderList,
+  });
 };
 
 module.exports = { filesGet };
