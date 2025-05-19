@@ -46,4 +46,31 @@ const paramsArrayPathToIdPath =
     return idPath;
   };
 
-module.exports = { paramsArrayPathToIdPath };
+const queryFolderFromPath = async function queryOwnersFolderFromPath(
+  ownerId,
+  folderPathParams,
+) {
+  let folderName;
+  let paramsArray;
+
+  if (!folderPathParams) {
+    paramsArray = ["/"];
+    folderName = "Your Files";
+  } else {
+    paramsArray = folderPathParams.filter((folderParam) => folderParam !== "");
+    folderName = paramsArray.pop();
+  }
+
+  const idPath = await paramsArrayPathToIdPath(ownerId, paramsArray);
+
+  const folder = await prisma.folder.findFirst({
+    where: {
+      path: idPath,
+      name: folderName,
+    },
+  });
+
+  return folder;
+};
+
+module.exports = { paramsArrayPathToIdPath, queryFolderFromPath };

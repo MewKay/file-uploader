@@ -8,6 +8,11 @@
       <div class="heading">
         <h3><%= currentFolder.name %></h3>
         <button>Create a new folder</button>
+        <form action="./new-folder/" method="post">
+          <label for="new-folder-name">Folder name</label>
+          <input id="new-folder-name" type="text" name="newFolderName" />
+          <button type="submit">Create</button>
+        </form>
       </div>
       <div class="files-content">
         <header>
