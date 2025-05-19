@@ -18,7 +18,30 @@ const filesGet = async (req, res) => {
   });
 };
 
-const createSubFolder = async (req, res) => {
+const createRootChildrenFolder = async (req, res) => {
+  const { user } = req;
+  const { newFolderName } = req.body;
+
+  const rootFolder = await prisma.folder.findFirst({
+    where: {
+      owner_id: user.id,
+      is_root: true,
+    },
+  });
+
+  await prisma.folder.create({
+    data: {
+      name: newFolderName,
+      path: rootFolder.id + "/",
+      owner_id: user.id,
+      parent_id: rootFolder.id,
+    },
+  });
+
+  res.redirect("/files/");
+};
+
+const createFolder = async (req, res) => {
   const { user } = req;
   const { folderPathParams } = req.params;
   const { newFolderName } = req.body;
@@ -40,4 +63,4 @@ const createSubFolder = async (req, res) => {
   res.redirect(parentFolderUrl);
 };
 
-module.exports = { filesGet, createSubFolder };
+module.exports = { filesGet, createRootChildrenFolder, createFolder };
