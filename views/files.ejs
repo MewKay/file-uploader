@@ -25,7 +25,14 @@
           <li><a href="<%= parentDirectoryUrl %>">Parent directory</a></li>
           <% } %>
           <% currentFolderList.forEach((folder) => { %>
-          <li><a href="./<%= folder.name %>"><%= folder.name %></a></li>
+          <li>
+            <a href="./<%= folder.name %>"><%= folder.name %></a>
+            <button>...</button>
+            <span>
+              <button>Rename folder</button>
+              <button>Delete folder</button>
+            </span>
+          </li>
           <% }) %>
         </ul>
       </div>
