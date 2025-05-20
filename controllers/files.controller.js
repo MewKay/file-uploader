@@ -12,9 +12,16 @@ const filesGet = async (req, res) => {
     },
   });
 
+  const currentFolderParamStringLength = (encodeURI(currentFolder.name) + "/")
+    .length;
+  const parentDirectoryUrl = currentFolder.is_root
+    ? null
+    : req.originalUrl.slice(0, -currentFolderParamStringLength);
+
   res.render("files", {
     currentFolder,
     currentFolderList,
+    parentDirectoryUrl,
   });
 };
 
