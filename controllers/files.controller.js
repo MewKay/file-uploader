@@ -1,12 +1,14 @@
 const prisma = require("../config/prisma-client");
-const { queryFolderFromPath } = require("../utils/controller.util");
+const {
+  queryFolderFromPath,
+  idPathToUrl,
+} = require("../utils/controller.util");
 
 const filesGet = async (req, res) => {
   const { user } = req;
   const { folderPathParams } = req.params;
 
   const currentFolder = await queryFolderFromPath(user.id, folderPathParams);
-  console.log(currentFolder);
 
   const currentFolderList = await prisma.folder.findMany({
     where: {
@@ -14,11 +16,9 @@ const filesGet = async (req, res) => {
     },
   });
 
-  const currentFolderParamStringLength = (encodeURI(currentFolder.name) + "/")
-    .length;
   const parentDirectoryUrl = currentFolder.is_root
     ? null
-    : req.originalUrl.slice(0, -currentFolderParamStringLength);
+    : await idPathToUrl(user.id, currentFolder.path);
 
   res.render("files", {
     currentFolder,
@@ -57,7 +57,7 @@ const createFolder = async (req, res) => {
 
   const parentFolder = await queryFolderFromPath(user.id, folderPathParams);
 
-  await prisma.folder.create({
+  const createdFolder = await prisma.folder.create({
     data: {
       name: newFolderName,
       path: parentFolder.path + parentFolder.id + "/",
@@ -66,8 +66,7 @@ const createFolder = async (req, res) => {
     },
   });
 
-  const newFolderStringLength = "new-folder/".length;
-  const parentFolderUrl = req.originalUrl.slice(0, -newFolderStringLength);
+  const parentFolderUrl = await idPathToUrl(user.id, createdFolder.path);
 
   res.redirect(parentFolderUrl);
 };
@@ -88,10 +87,9 @@ const renameFolder = async (req, res) => {
     },
   });
 
-  const folderParamLength = (encodeURI(folder.name) + "/rename-folder/").length;
-  const folderUrl = req.originalUrl.slice(0, -folderParamLength);
+  const parentFolderUrl = await idPathToUrl(user.id, folder.path);
 
-  res.redirect(folderUrl);
+  res.redirect(parentFolderUrl);
 };
 
 module.exports = {

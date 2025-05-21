@@ -73,4 +73,53 @@ const queryFolderFromPath = async function queryOwnersFolderFromPath(
   return folder;
 };
 
-module.exports = { paramsArrayPathToIdPath, queryFolderFromPath };
+const idPathToUrl = async function translateIdPathToFolderUrl(userId, idPath) {
+  const rootUrl = "/files/";
+  let paramsArray = [];
+
+  if (idPath === "/") {
+    return rootUrl;
+  }
+
+  const idPathArray = idPath
+    .split("/")
+    .filter((id) => id !== "")
+    .map((id) => parseInt(id));
+
+  const rootFolder = await prisma.folder.findFirst({
+    where: {
+      id: idPathArray.shift(),
+      path: "/",
+      owner_id: userId,
+    },
+  });
+
+  if (!rootFolder) {
+    throw new Error("Invalid path");
+  }
+
+  if (idPathArray.length <= 0) {
+    return rootUrl;
+  }
+
+  for (let id of idPathArray) {
+    const folder = await prisma.folder.findFirst({
+      where: {
+        id: id,
+        owner_id: userId,
+      },
+    });
+
+    if (!folder) {
+      throw new Error("Invalid Path");
+    }
+
+    paramsArray.push(folder.name);
+  }
+
+  const folderUrl = rootUrl + paramsArray.join("/") + "/";
+
+  return folderUrl;
+};
+
+module.exports = { paramsArrayPathToIdPath, queryFolderFromPath, idPathToUrl };
