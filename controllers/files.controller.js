@@ -92,9 +92,27 @@ const renameFolder = async (req, res) => {
   res.redirect(parentFolderUrl);
 };
 
+const deleteFolder = async (req, res) => {
+  const { user } = req;
+  const { folderPathParams } = req.params;
+
+  const folder = await queryFolderFromPath(user.id, folderPathParams);
+
+  await prisma.folder.delete({
+    where: {
+      id: folder.id,
+    },
+  });
+
+  const parentFolderUrl = await idPathToUrl(user.id, folder.path);
+
+  res.redirect(parentFolderUrl);
+};
+
 module.exports = {
   filesGet,
   createRootChildrenFolder,
   createFolder,
   renameFolder,
+  deleteFolder,
 };
