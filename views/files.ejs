@@ -24,13 +24,14 @@
           <% if (locals.parentDirectoryUrl) { %>
           <li><a href="<%= parentDirectoryUrl %>">Parent directory</a></li>
           <% } %>
+
           <% currentFolderList.forEach((folder) => { %>
           <li>
             <a href="./<%= folder.name %>"><%= folder.name %></a>
+
             <button>...</button>
             <span>
               <button class="rename-button">Rename folder</button>
-              <button>Delete folder</button>
               <dialog class="rename-dialog">
                 <form
                   action="./<%= folder.name %>/rename-folder/"
@@ -43,6 +44,15 @@
                   </label>
                 </form>
               </dialog>
+
+              <form action="./<%= folder.name %>/delete-folder/" method="post">
+                <button
+                  type="submit"
+                  onclick="return confirm('Do you really want to delete folder <%= folder.name %> and all of its content ? This action is irreversible.');"
+                >
+                  Delete folder
+                </button>
+              </form>
             </span>
           </li>
           <% }) %>
