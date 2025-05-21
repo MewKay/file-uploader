@@ -29,13 +29,26 @@
             <a href="./<%= folder.name %>"><%= folder.name %></a>
             <button>...</button>
             <span>
-              <button>Rename folder</button>
+              <button class="rename-button">Rename folder</button>
               <button>Delete folder</button>
+              <dialog class="rename-dialog">
+                <form
+                  action="./<%= folder.name %>/rename-folder/"
+                  method="post"
+                >
+                  <label>
+                    Folder Name
+                    <input type="text" name="folder-new-name" />
+                    <button type="submit">Rename</button>
+                  </label>
+                </form>
+              </dialog>
             </span>
           </li>
           <% }) %>
         </ul>
       </div>
     </main>
+    <script src="/scripts/folderOptions.js"></script>
   </body>
 </html>
