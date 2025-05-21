@@ -6,6 +6,8 @@ const filesGet = async (req, res) => {
   const { folderPathParams } = req.params;
 
   const currentFolder = await queryFolderFromPath(user.id, folderPathParams);
+  console.log(currentFolder);
+
   const currentFolderList = await prisma.folder.findMany({
     where: {
       parent_id: currentFolder.id,
@@ -70,4 +72,31 @@ const createFolder = async (req, res) => {
   res.redirect(parentFolderUrl);
 };
 
-module.exports = { filesGet, createRootChildrenFolder, createFolder };
+const renameFolder = async (req, res) => {
+  const { user } = req;
+  const { folderPathParams } = req.params;
+  const { folderNewName } = req.body;
+
+  const folder = await queryFolderFromPath(user.id, folderPathParams);
+
+  await prisma.folder.update({
+    where: {
+      id: folder.id,
+    },
+    data: {
+      name: folderNewName,
+    },
+  });
+
+  const folderParamLength = (encodeURI(folder.name) + "/rename-folder/").length;
+  const folderUrl = req.originalUrl.slice(0, -folderParamLength);
+
+  res.redirect(folderUrl);
+};
+
+module.exports = {
+  filesGet,
+  createRootChildrenFolder,
+  createFolder,
+  renameFolder,
+};
