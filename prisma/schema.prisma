@@ -21,9 +21,9 @@ model File {
   mime_type   String
   upload_time DateTime @default(now())
   owner_id    Int
-  owner       User     @relation(fields: [owner_id], references: [id])
+  owner       User     @relation(fields: [owner_id], references: [id], onDelete: Cascade)
   parent_id   Int
-  parent      Folder   @relation(fields: [parent_id], references: [id])
+  parent      Folder   @relation(fields: [parent_id], references: [id], onDelete: Cascade)
 
   @@unique([name, parent_id])
   @@map("files")
@@ -36,9 +36,9 @@ model Folder {
   is_root    Boolean  @default(false)
   updated_at DateTime @default(now())
   owner_id   Int
-  owner      User     @relation(fields: [owner_id], references: [id])
+  owner      User     @relation(fields: [owner_id], references: [id], onDelete: Cascade)
   parent_id  Int?
-  parent     Folder?  @relation("FolderHierarchy", fields: [parent_id], references: [id])
+  parent     Folder?  @relation("FolderHierarchy", fields: [parent_id], references: [id], onDelete: Cascade)
   children   Folder[] @relation("FolderHierarchy")
   files      File[]
 
