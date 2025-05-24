@@ -1,10 +1,10 @@
-const { validationResult } = require("express-validator");
 const prisma = require("../config/prisma-client");
 const folderNameValidator = require("../middlewares/validators/folder-name.validator");
 const {
   queryFolderFromPath,
   idPathToUrl,
 } = require("../utils/controller.util");
+const folderNameValidationHandler = require("../middlewares/validators/folder-name.handler");
 
 const filesGet = async (req, res) => {
   const { user } = req;
@@ -31,13 +31,8 @@ const filesGet = async (req, res) => {
 
 const createRootChildrenFolder = [
   folderNameValidator,
+  folderNameValidationHandler,
   async (req, res) => {
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-      return res.status(400).send(errors.array()[0].msg);
-    }
-
     const { user } = req;
     const { folderName } = req.body;
 
@@ -63,13 +58,8 @@ const createRootChildrenFolder = [
 
 const createFolder = [
   folderNameValidator,
+  folderNameValidationHandler,
   async (req, res) => {
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-      return res.status(400).send(errors.array()[0].msg);
-    }
-
     const { user } = req;
     const { folderPathParams } = req.params;
     const { folderName } = req.body;
@@ -93,13 +83,8 @@ const createFolder = [
 
 const renameFolder = [
   folderNameValidator,
+  folderNameValidationHandler,
   async (req, res) => {
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-      return res.status(400).send(errors.array()[0].msg);
-    }
-
     const { user } = req;
     const { folderPathParams } = req.params;
     const { folderName } = req.body;
