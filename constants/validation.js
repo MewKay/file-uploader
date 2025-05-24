@@ -6,6 +6,17 @@ const ranges = {
   password: {
     min: 8,
   },
+  folderName: {
+    min: 1,
+    max: 255,
+  },
 };
 
-module.exports = { ranges };
+const folderNameInvalids = {
+  characters: ["/", "#", "&"],
+  string: [".", ".."],
+};
+
+const defaultLocale = "en-US";
+
+module.exports = { ranges, folderNameInvalids, defaultLocale };
