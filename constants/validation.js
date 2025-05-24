@@ -13,7 +13,7 @@ const ranges = {
 };
 
 const folderNameInvalids = {
-  characters: ["/", "#", "&"],
+  characters: ["/", "\\", "#", "?"],
   string: [".", ".."],
 };
 

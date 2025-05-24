@@ -1,4 +1,6 @@
+const { validationResult } = require("express-validator");
 const prisma = require("../config/prisma-client");
+const folderNameValidator = require("../middlewares/validators/folder-name.validator");
 const {
   queryFolderFromPath,
   idPathToUrl,
@@ -27,70 +29,97 @@ const filesGet = async (req, res) => {
   });
 };
 
-const createRootChildrenFolder = async (req, res) => {
-  const { user } = req;
-  const { newFolderName } = req.body;
+const createRootChildrenFolder = [
+  folderNameValidator,
+  async (req, res) => {
+    const errors = validationResult(req);
 
-  const rootFolder = await prisma.folder.findFirst({
-    where: {
-      owner_id: user.id,
-      is_root: true,
-    },
-  });
+    if (!errors.isEmpty()) {
+      return res.status(400).send(errors.array()[0].msg);
+    }
 
-  await prisma.folder.create({
-    data: {
-      name: newFolderName,
-      path: rootFolder.id + "/",
-      owner_id: user.id,
-      parent_id: rootFolder.id,
-    },
-  });
+    const { user } = req;
+    const { folderName } = req.body;
 
-  res.redirect("/files/");
-};
+    const rootFolder = await prisma.folder.findFirst({
+      where: {
+        owner_id: user.id,
+        is_root: true,
+      },
+    });
 
-const createFolder = async (req, res) => {
-  const { user } = req;
-  const { folderPathParams } = req.params;
-  const { newFolderName } = req.body;
+    await prisma.folder.create({
+      data: {
+        name: folderName,
+        path: rootFolder.id + "/",
+        owner_id: user.id,
+        parent_id: rootFolder.id,
+      },
+    });
 
-  const parentFolder = await queryFolderFromPath(user.id, folderPathParams);
+    res.redirect("/files/");
+  },
+];
 
-  const createdFolder = await prisma.folder.create({
-    data: {
-      name: newFolderName,
-      path: parentFolder.path + parentFolder.id + "/",
-      owner_id: user.id,
-      parent_id: parentFolder.id,
-    },
-  });
+const createFolder = [
+  folderNameValidator,
+  async (req, res) => {
+    const errors = validationResult(req);
 
-  const parentFolderUrl = await idPathToUrl(user.id, createdFolder.path);
+    if (!errors.isEmpty()) {
+      return res.status(400).send(errors.array()[0].msg);
+    }
 
-  res.redirect(parentFolderUrl);
-};
+    const { user } = req;
+    const { folderPathParams } = req.params;
+    const { folderName } = req.body;
 
-const renameFolder = async (req, res) => {
-  const { user } = req;
-  const { folderPathParams } = req.params;
-  const { folderNewName } = req.body;
+    const parentFolder = await queryFolderFromPath(user.id, folderPathParams);
 
-  const folder = await queryFolderFromPath(user.id, folderPathParams);
+    const createdFolder = await prisma.folder.create({
+      data: {
+        name: folderName,
+        path: parentFolder.path + parentFolder.id + "/",
+        owner_id: user.id,
+        parent_id: parentFolder.id,
+      },
+    });
 
-  await prisma.folder.update({
-    where: {
-      id: folder.id,
-    },
-    data: {
-      name: folderNewName,
-    },
-  });
+    const parentFolderUrl = await idPathToUrl(user.id, createdFolder.path);
 
-  const parentFolderUrl = await idPathToUrl(user.id, folder.path);
+    res.redirect(parentFolderUrl);
+  },
+];
 
-  res.redirect(parentFolderUrl);
-};
+const renameFolder = [
+  folderNameValidator,
+  async (req, res) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).send(errors.array()[0].msg);
+    }
+
+    const { user } = req;
+    const { folderPathParams } = req.params;
+    const { folderName } = req.body;
+
+    const folder = await queryFolderFromPath(user.id, folderPathParams);
+
+    await prisma.folder.update({
+      where: {
+        id: folder.id,
+      },
+      data: {
+        name: folderName,
+      },
+    });
+
+    const parentFolderUrl = await idPathToUrl(user.id, folder.path);
+
+    res.redirect(parentFolderUrl);
+  },
+];
 
 const deleteFolder = async (req, res) => {
   const { user } = req;
