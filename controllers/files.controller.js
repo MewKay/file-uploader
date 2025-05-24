@@ -1,9 +1,7 @@
 const prisma = require("../config/prisma-client");
+const { queryFolderFromPath } = require("../utils/controller.util");
+
 const folderNameValidator = require("../middlewares/validators/folder-name.validator");
-const {
-  queryFolderFromPath,
-  idPathToUrl,
-} = require("../utils/controller.util");
 const folderNameValidationHandler = require("../middlewares/validators/folder-name.handler");
 
 const filesGet = async (req, res) => {
@@ -18,14 +16,9 @@ const filesGet = async (req, res) => {
     },
   });
 
-  const parentDirectoryUrl = currentFolder.is_root
-    ? null
-    : await idPathToUrl(user.id, currentFolder.path);
-
   res.render("files", {
     currentFolder,
     currentFolderList,
-    parentDirectoryUrl,
   });
 };
 
@@ -66,7 +59,7 @@ const createFolder = [
 
     const parentFolder = await queryFolderFromPath(user.id, folderPathParams);
 
-    const createdFolder = await prisma.folder.create({
+    await prisma.folder.create({
       data: {
         name: folderName,
         path: parentFolder.path + parentFolder.id + "/",
@@ -75,7 +68,7 @@ const createFolder = [
       },
     });
 
-    const parentFolderUrl = await idPathToUrl(user.id, createdFolder.path);
+    const parentFolderUrl = "../";
 
     res.redirect(parentFolderUrl);
   },
@@ -100,7 +93,8 @@ const renameFolder = [
       },
     });
 
-    const parentFolderUrl = await idPathToUrl(user.id, folder.path);
+    // To remove /rename-folder and /folder name from url
+    const parentFolderUrl = "../../";
 
     res.redirect(parentFolderUrl);
   },
@@ -118,7 +112,8 @@ const deleteFolder = async (req, res) => {
     },
   });
 
-  const parentFolderUrl = await idPathToUrl(user.id, folder.path);
+  // To remove /delete-folder/ and /folder name from url
+  const parentFolderUrl = "../../";
 
   res.redirect(parentFolderUrl);
 };

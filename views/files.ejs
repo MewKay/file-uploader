@@ -21,8 +21,8 @@
           <p>Date</p>
         </header>
         <ul class="files-list">
-          <% if (locals.parentDirectoryUrl) { %>
-          <li><a href="<%= parentDirectoryUrl %>">Parent directory</a></li>
+          <% if (!currentFolder.is_root) { %>
+          <li><a href="../">Parent directory</a></li>
           <% } %>
 
           <% currentFolderList.forEach((folder) => { %>
