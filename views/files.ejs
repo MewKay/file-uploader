@@ -26,6 +26,8 @@
           <% currentFolderList.forEach((folder) => { %>
           <li>
             <a href="./<%= folder.name %>"><%= folder.name %></a>
+            <p class="folder-size">-</p>
+            <p class="folder-date"><%= folder.formattedDate %></p>
 
             <button>...</button>
             <span>
