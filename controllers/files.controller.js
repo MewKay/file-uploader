@@ -14,6 +14,9 @@ const filesGet = async (req, res) => {
     where: {
       parent_id: currentFolder.id,
     },
+    orderBy: {
+      name: "asc",
+    },
   });
 
   res.render("files", {
