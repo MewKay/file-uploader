@@ -7,12 +7,9 @@
     <main>
       <div class="heading">
         <h3><%= currentFolder.name %></h3>
-        <button>Create a new folder</button>
-        <form action="./new-folder/" method="post">
-          <label for="new-folder-name">Folder name</label>
-          <input id="new-folder-name" type="text" name="folderName" />
-          <button type="submit">Create</button>
-        </form>
+
+        <button class="new-folder-button">Create a new folder</button>
+        <%- include("partials/folder-name-modal.ejs", { formAction: "./new-folder/", buttonName: "Create", className: "new-folder-modal" }) %>
       </div>
       <div class="files-content">
         <header>
@@ -20,6 +17,7 @@
           <p>Size</p>
           <p>Date</p>
         </header>
+
         <ul class="files-list">
           <% if (!currentFolder.is_root) { %>
           <li><a href="../">Parent directory</a></li>
@@ -32,18 +30,9 @@
             <button>...</button>
             <span>
               <button class="rename-button">Rename folder</button>
-              <dialog class="rename-dialog">
-                <form
-                  action="./<%= folder.name %>/rename-folder/"
-                  method="post"
-                >
-                  <label>
-                    Folder Name
-                    <input type="text" name="folderName" />
-                    <button type="submit">Rename</button>
-                  </label>
-                </form>
-              </dialog>
+
+              <% const formAction = `./${encodeURIComponent(folder.name)}/rename-folder/` %>
+              <%- include("partials/folder-name-modal.ejs", { formAction,  buttonName: "Rename", className: "rename-modal"}) %>
 
               <form action="./<%= folder.name %>/delete-folder/" method="post">
                 <button
