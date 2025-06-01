@@ -22,11 +22,11 @@ app.use(passport.session());
 const indexRouter = require("./routes/index.router");
 const signUpRouter = require("./routes/sign-up.router");
 const logInRouter = require("./routes/log-in.router");
-const filesRouter = require("./routes/files.router");
+const folderRouter = require("./routes/folder.router");
 app.use("/", indexRouter);
 app.use("/sign-up", signUpRouter);
 app.use("/log-in", logInRouter);
-app.use("/files", filesRouter);
+app.use("/files", folderRouter);
 
 // Server
 const PORT = process.env.PORT || 3000;

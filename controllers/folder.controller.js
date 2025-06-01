@@ -22,7 +22,7 @@ const filesGet = async (req, res) => {
     },
   });
 
-  res.render("files", {
+  res.render("files-index", {
     currentFolder,
     currentFolderList,
   });

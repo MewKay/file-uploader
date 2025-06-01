@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const controller = require("../controllers/files.controller");
+const controller = require("../controllers/folder.controller");
 const { isAuth } = require("../middlewares/auth");
 const enforceTrailingSlash = require("../middlewares/enforceTrailingSlash");
 
