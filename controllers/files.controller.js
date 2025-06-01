@@ -1,5 +1,8 @@
 const prisma = require("../config/prisma-client");
-const { queryFolderFromPath } = require("../utils/controller.util");
+const {
+  queryFolderFromPath,
+  updateAncestorsDateNow,
+} = require("../utils/controller.util");
 
 const folderNameValidator = require("../middlewares/validators/folder-name.validator");
 const folderNameValidationHandler = require("../middlewares/validators/folder-name.handler");
@@ -95,6 +98,8 @@ const renameFolder = [
         name: folderName,
       },
     });
+
+    await updateAncestorsDateNow(folder.id);
 
     // To remove /rename-folder and /folder name from url
     const parentFolderUrl = "../../";

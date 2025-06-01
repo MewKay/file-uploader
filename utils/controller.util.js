@@ -122,4 +122,27 @@ const idPathToUrl = async function translateIdPathToFolderUrl(userId, idPath) {
   return folderUrl;
 };
 
-module.exports = { paramsArrayPathToIdPath, queryFolderFromPath, idPathToUrl };
+const updateAncestorsDateNow =
+  async function updateFoldersDateAndItsAncestorsToNow(folderId) {
+    if (!folderId) {
+      return;
+    }
+
+    const folder = await prisma.folder.update({
+      where: {
+        id: folderId,
+      },
+      data: {
+        updated_at: new Date(),
+      },
+    });
+
+    await updateFoldersDateAndItsAncestorsToNow(folder.parent_id);
+  };
+
+module.exports = {
+  paramsArrayPathToIdPath,
+  queryFolderFromPath,
+  idPathToUrl,
+  updateAncestorsDateNow,
+};
