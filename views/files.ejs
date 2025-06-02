@@ -76,8 +76,8 @@
           <% currentFilesList.forEach((file) => { %>
           <li>
             <a href="./<%= file.name %>"><%= file.name %></a>
-            <p class="file-size"><%= file.size %></p>
-            <p class="file-date"><%= file.upload_time %></p>
+            <p class="file-size"><%= file.formattedSize %></p>
+            <p class="file-date"><%= file.formattedDate %></p>
           </li>
           <% }) %>
         </ul>
