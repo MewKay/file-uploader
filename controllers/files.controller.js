@@ -23,9 +23,19 @@ const filesGet = async (req, res) => {
     },
   });
 
+  const currentFilesList = await prisma.file.findMany({
+    where: {
+      parent_id: currentFolder.id,
+    },
+    orderBy: {
+      name: "asc",
+    },
+  });
+
   res.render("files", {
     currentFolder,
     currentFolderList,
+    currentFilesList,
   });
 };
 
