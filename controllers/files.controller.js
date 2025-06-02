@@ -6,6 +6,7 @@ const {
 
 const folderNameValidator = require("../middlewares/validators/folder-name.validator");
 const folderNameValidationHandler = require("../middlewares/validators/folder-name.handler");
+const upload = require("../config/multer");
 
 const filesGet = async (req, res) => {
   const { user } = req;
@@ -126,10 +127,35 @@ const deleteFolder = async (req, res) => {
   res.redirect(parentFolderUrl);
 };
 
+const uploadFile = [
+  upload.single("uploaded_file"),
+  async (req, res) => {
+    const { user, file } = req;
+    const { folderPathParams } = req.params;
+
+    const parentFolder = await queryFolderFromPath(user.id, folderPathParams);
+
+    await prisma.file.create({
+      data: {
+        name: file.originalname,
+        size: file.size,
+        mime_type: file.mimetype,
+        owner_id: user.id,
+        parent_id: parentFolder.id,
+      },
+    });
+
+    const parentFolderUrl = "../";
+
+    res.redirect(parentFolderUrl);
+  },
+];
+
 module.exports = {
   filesGet,
   createRootChildrenFolder,
   createFolder,
   renameFolder,
   deleteFolder,
+  uploadFile,
 };
