@@ -14,6 +14,10 @@ const filesGet = async (req, res) => {
 
   const currentFolder = await queryFolderFromPath(user.id, folderPathParams);
 
+  if (!currentFolder) {
+    throw new Error("File or directory does not exist");
+  }
+
   const currentFolderList = await prisma.folder.findMany({
     where: {
       parent_id: currentFolder.id,
