@@ -25,7 +25,7 @@ const fileDetailsGet = async (req, res, next) => {
     return next();
   }
 
-  res.send(file);
+  res.render("file-details", { fileDetails: file });
 };
 
 module.exports = { fileDetailsGet };
