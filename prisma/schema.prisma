@@ -15,15 +15,16 @@ datasource db {
 }
 
 model File {
-  id          Int      @id @default(autoincrement())
-  name        String
-  size        Int      @default(0)
-  mime_type   String
-  upload_time DateTime @default(now())
-  owner_id    Int
-  owner       User     @relation(fields: [owner_id], references: [id], onDelete: Cascade)
-  parent_id   Int
-  parent      Folder   @relation(fields: [parent_id], references: [id], onDelete: Cascade)
+  id            Int      @id @default(autoincrement())
+  name          String
+  size          Int      @default(0)
+  mime_type     String
+  upload_time   DateTime @default(now())
+  download_link String
+  owner_id      Int
+  owner         User     @relation(fields: [owner_id], references: [id], onDelete: Cascade)
+  parent_id     Int
+  parent        Folder   @relation(fields: [parent_id], references: [id], onDelete: Cascade)
 
   @@unique([name, parent_id])
   @@map("files")
