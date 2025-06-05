@@ -26,6 +26,12 @@ const prisma = new PrismaClient()
             return format(file.upload_time, "d MMM y - p");
           },
         },
+        formattedFullDate: {
+          needs: { upload_time: true },
+          compute(file) {
+            return format(file.upload_time, "EEEE do MMMM y 'at' p");
+          },
+        },
         formattedSize: {
           needs: { size: true },
           compute(file) {
