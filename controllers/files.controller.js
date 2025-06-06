@@ -154,6 +154,7 @@ const uploadFile = [
         name: file.originalname,
         size: file.size,
         mime_type: file.mimetype,
+        download_link: "/data/uploads/" + file.filename,
         owner_id: user.id,
         parent_id: parentFolder.id,
       },
