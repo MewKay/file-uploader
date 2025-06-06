@@ -1,6 +1,8 @@
 const prisma = require("../config/prisma-client");
+const path = require("node:path");
 const {
   queryFolderFromPath,
+  queryFileFromPath,
   updateAncestorsDateNow,
 } = require("../utils/controller.util");
 
@@ -166,6 +168,17 @@ const uploadFile = [
   },
 ];
 
+const downloadFile = async (req, res) => {
+  const { user } = req;
+  const { filepath } = req.query;
+  const filePathParams = filepath.split("/");
+
+  const file = await queryFileFromPath(user.id, filePathParams);
+  const fileLocation = path.join(__dirname, "..", "public", file.download_link);
+
+  res.download(fileLocation, file.name);
+};
+
 module.exports = {
   filesGet,
   createRootChildrenFolder,
@@ -173,4 +186,5 @@ module.exports = {
   renameFolder,
   deleteFolder,
   uploadFile,
+  downloadFile,
 };

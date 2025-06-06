@@ -73,6 +73,29 @@ const queryFolderFromPath = async function queryOwnersFolderFromPath(
   return folder;
 };
 
+const queryFileFromPath = async function queryOwnersFileFromPath(
+  userId,
+  filePathParams,
+) {
+  const fileName = filePathParams?.pop();
+  const isPathForFiles = !fileName ? false : true;
+
+  if (!isPathForFiles) {
+    return null;
+  }
+
+  const parentFolder = await queryFolderFromPath(userId, filePathParams);
+  const file = await prisma.file.findFirst({
+    where: {
+      owner_id: userId,
+      parent_id: parentFolder.id,
+      name: fileName,
+    },
+  });
+
+  return file;
+};
+
 const idPathToUrl = async function translateIdPathToFolderUrl(userId, idPath) {
   const rootUrl = "/files/";
   let paramsArray = [];
@@ -143,6 +166,7 @@ const updateAncestorsDateNow =
 module.exports = {
   paramsArrayPathToIdPath,
   queryFolderFromPath,
+  queryFileFromPath,
   idPathToUrl,
   updateAncestorsDateNow,
 };

@@ -11,12 +11,7 @@
         <p>Uploaded at <%= fileDetails.formattedFullDate %></p>
         <div class="action-container">
           <a href="./">Back to parent directory</a>
-          <a
-            href="<%= fileDetails.download_link %>"
-            download="<%= fileDetails.name %>"
-          >
-            Download File
-          </a>
+          <a href="/files/download?filepath=<%= filepath %>"> Download File </a>
         </div>
       </div>
     </main>

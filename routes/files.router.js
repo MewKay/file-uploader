@@ -6,8 +6,8 @@ const { isAuth } = require("../middlewares/auth");
 const enforceTrailingSlash = require("../middlewares/enforceTrailingSlash");
 
 router.use(isAuth);
-
 router.use("/{*folderPathParams}", fileRouter);
+router.get("/download", controller.downloadFile);
 
 router.use(enforceTrailingSlash);
 router.get("/{*folderPathParams}", controller.filesGet);
