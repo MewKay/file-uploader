@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("partials/head.ejs", { title: fileDetails.name }) %>
+  </head>
+  <body>
+    <main>
+      <div>
+        <h3><%= fileDetails.name %></h3>
+        <p><%= fileDetails.formattedSize %></p>
+        <p>Uploaded at <%= fileDetails.formattedFullDate %></p>
+        <div class="action-container">
+          <a href="./">Back to parent directory</a>
+          <a href="/files/download?filepath=<%= filepath %>"> Download File </a>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

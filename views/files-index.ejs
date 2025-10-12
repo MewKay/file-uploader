@@ -2,6 +2,13 @@
 <html lang="en">
   <head>
     <%- include("partials/head.ejs", { title: currentFolder.name }) %>
+    <style>
+      li {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+      }
+    </style>
   </head>
   <body>
     <main>
@@ -9,7 +16,32 @@
         <h3><%= currentFolder.name %></h3>
 
         <button class="new-folder-button">Create a new folder</button>
-        <%- include("partials/folder-name-modal.ejs", { formAction: "./new-folder/", buttonName: "Create", className: "new-folder-modal" }) %>
+
+        <button class="open-upload-modal-button">Upload a file</button>
+
+        <dialog class="file-upload-modal">
+          <form
+            action="./upload-file/"
+            method="post"
+            enctype="multipart/form-data"
+          >
+            <button
+              class="close-modal-button"
+              type="button"
+              aria-label="Close write folder name modal"
+            >
+              x
+            </button>
+            <input type="file" name="uploaded_file" />
+            <button type="submit">Upload</button>
+          </form>
+        </dialog>
+
+        <%- include("partials/folder-name-modal.ejs", { 
+              formAction: "./new-folder/", 
+              buttonName: "Create", 
+              className: "new-folder-modal" 
+            }) %>
       </div>
       <div class="files-content">
         <header>
@@ -25,7 +57,7 @@
 
           <% currentFolderList.forEach((folder) => { %>
           <li>
-            <a href="./<%= folder.name %>"><%= folder.name %></a>
+            <a href="./<%= folder.name %>/"><%= folder.name %></a>
             <p class="folder-size">-</p>
             <p class="folder-date"><%= folder.formattedDate %></p>
 
@@ -45,6 +77,14 @@
                 </button>
               </form>
             </span>
+          </li>
+          <% }) %>
+
+          <% currentFilesList.forEach((file) => { %>
+          <li>
+            <a href="./<%= file.name %>"><%= file.name %></a>
+            <p class="file-size"><%= file.formattedSize %></p>
+            <p class="file-date"><%= file.formattedDate %></p>
           </li>
           <% }) %>
         </ul>

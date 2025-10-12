@@ -1,11 +1,14 @@
 const prisma = require("../config/prisma-client");
+const path = require("node:path");
 const {
   queryFolderFromPath,
+  queryFileFromPath,
   updateAncestorsDateNow,
 } = require("../utils/controller.util");
 
 const folderNameValidator = require("../middlewares/validators/folder-name.validator");
 const folderNameValidationHandler = require("../middlewares/validators/folder-name.handler");
+const upload = require("../config/multer");
 
 const filesGet = async (req, res) => {
   const { user } = req;
@@ -13,7 +16,20 @@ const filesGet = async (req, res) => {
 
   const currentFolder = await queryFolderFromPath(user.id, folderPathParams);
 
+  if (!currentFolder) {
+    throw new Error("File or directory does not exist");
+  }
+
   const currentFolderList = await prisma.folder.findMany({
+    where: {
+      parent_id: currentFolder.id,
+    },
+    orderBy: {
+      name: "asc",
+    },
+  });
+
+  const currentFilesList = await prisma.file.findMany({
     where: {
       parent_id: currentFolder.id,
     },
@@ -25,6 +41,7 @@ const filesGet = async (req, res) => {
   res.render("files-index", {
     currentFolder,
     currentFolderList,
+    currentFilesList,
   });
 };
 
@@ -126,10 +143,48 @@ const deleteFolder = async (req, res) => {
   res.redirect(parentFolderUrl);
 };
 
+const uploadFile = [
+  upload.single("uploaded_file"),
+  async (req, res) => {
+    const { user, file } = req;
+    const { folderPathParams } = req.params;
+
+    const parentFolder = await queryFolderFromPath(user.id, folderPathParams);
+
+    await prisma.file.create({
+      data: {
+        name: file.originalname,
+        size: file.size,
+        mime_type: file.mimetype,
+        download_link: "/data/uploads/" + file.filename,
+        owner_id: user.id,
+        parent_id: parentFolder.id,
+      },
+    });
+
+    const parentFolderUrl = "../";
+
+    res.redirect(parentFolderUrl);
+  },
+];
+
+const downloadFile = async (req, res) => {
+  const { user } = req;
+  const { filepath } = req.query;
+  const filePathParams = filepath.split("/");
+
+  const file = await queryFileFromPath(user.id, filePathParams);
+  const fileLocation = path.join(__dirname, "..", "public", file.download_link);
+
+  res.download(fileLocation, file.name);
+};
+
 module.exports = {
   filesGet,
   createRootChildrenFolder,
   createFolder,
   renameFolder,
   deleteFolder,
+  uploadFile,
+  downloadFile,
 };
