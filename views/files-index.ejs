@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <%- include("partials/head.ejs", { title: currentFolder.name }) %>
+    <link rel="stylesheet" href="/styles/header.css" />
     <style>
       li {
         display: flex;
@@ -45,11 +46,11 @@
             }) %>
       </div>
       <div class="files-content">
-        <header>
+        <div class="files-header">
           <p>Name</p>
           <p>Size</p>
           <p>Date</p>
-        </header>
+        </div>
 
         <ul class="files-list">
           <% if (!currentFolder.is_root) { %>

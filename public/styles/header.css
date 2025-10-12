@@ -1,0 +1,23 @@
+header {
+  position: sticky;
+  z-index: 10;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--grey-900);
+  color: var(--grey-100);
+  padding: var(--spacing-2) var(--spacing-4);
+  border-bottom: solid 1px var(--grey-800);
+  box-shadow: var(--shadow-1);
+}
+
+.brand {
+  font-size: var(--font-size-6);
+}
+
+.log-out-button {
+  border: none;
+  background-color: transparent;
+  color: var(--grey-100);
+}
