@@ -16,8 +16,18 @@ header {
   font-size: var(--font-size-6);
 }
 
+header form {
+  display: flex;
+  align-items: center;
+}
+
 .log-out-button {
   border: none;
   background-color: transparent;
   color: var(--grey-100);
+}
+
+.log-out-button svg {
+  height: var(--spacing-5);
+  width: var(--spacing-5);
 }
