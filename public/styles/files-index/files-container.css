@@ -27,10 +27,18 @@
 }
 
 .item-name {
+  display: flex;
+  gap: var(--spacing-1);
   text-decoration: none;
   color: var(--grey-100);
   margin-right: auto;
   overflow: hidden;
+}
+
+.item-name svg {
+  height: var(--spacing-4);
+  width: var(--spacing-4);
+  min-width: var(--spacing-4);
 }
 
 .item-date {
