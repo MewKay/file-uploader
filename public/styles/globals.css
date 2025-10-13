@@ -95,8 +95,10 @@
   --separator-dark: solid 2px var(--grey-400);
 
   /* Depth */
-  --raise: inset 0 1px 0 var(--grey-500);
-  --raise-shadow: 0 1px 3px hsla(0, 0%, 0%, 0.2);
+  --raise-grey-small: inset 0 1px 0 var(--grey-500);
+  --raise-grey-large: inset 0 2px 0 var(--grey-500);
+  --raise-small-shadow: 0 1px 3px hsla(0, 0%, 0%, 0.2);
+  --raise-large-shadow: 0 2px 4px hsla(0, 0%, 0%, 0.2);
   --inset: 0 2px 0 hsla(0, 0%, 100%, 0.15);
   --inset-shadow: inset 0 2px 2px hsla(0, 0%, 0%, 0.1);
 
