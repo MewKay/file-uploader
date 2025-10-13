@@ -99,10 +99,14 @@
   --raise-shadow: 0 1px 3px hsla(0, 0%, 0%, 0.2);
   --inset: 0 2px 0 hsla(0, 0%, 100%, 0.15);
   --inset-shadow: inset 0 2px 2px hsla(0, 0%, 0%, 0.1);
+
+  /* Content Width */
+  --max-width: var(--spacing-16);
 }
 
 body {
   width: auto;
+  height: 100vh;
   background-color: var(--grey-900);
   color: var(--grey-100);
   font-weight: var(--font-weight-normal);
@@ -110,9 +114,10 @@ body {
 
 main {
   display: flex;
+  height: 100%;
   flex-direction: column;
   align-items: center;
-  padding: var(--spacing-4) var(--spacing-4);
+  padding: var(--spacing-4) 0;
 }
 
 button:hover {

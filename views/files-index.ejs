@@ -3,13 +3,7 @@
   <head>
     <%- include("partials/head.ejs", { title: currentFolder.name }) %>
     <link rel="stylesheet" href="/styles/header.css" />
-    <style>
-      li {
-        display: flex;
-        align-items: center;
-        gap: 2rem;
-      }
-    </style>
+    <link rel="stylesheet" href="/styles/main-index.css" />
   </head>
   <body>
     <%- include("partials/header.ejs") %>
@@ -17,9 +11,10 @@
       <div class="heading">
         <h3><%= currentFolder.name %></h3>
 
-        <button class="new-folder-button">Create a new folder</button>
-
-        <button class="open-upload-modal-button">Upload a file</button>
+        <div class="button-container">
+          <button class="new-folder-button">Create a new folder</button>
+          <button class="open-upload-modal-button">Upload a file</button>
+        </div>
 
         <dialog class="file-upload-modal">
           <form
@@ -30,7 +25,7 @@
             <button
               class="close-modal-button"
               type="button"
-              aria-label="Close write folder name modal"
+              kkaria-label="Close write folder name modal"
             >
               x
             </button>
@@ -38,33 +33,44 @@
             <button type="submit">Upload</button>
           </form>
         </dialog>
-
         <%- include("partials/folder-name-modal.ejs", { 
               formAction: "./new-folder/", 
               buttonName: "Create", 
               className: "new-folder-modal" 
             }) %>
       </div>
-      <div class="files-content">
-        <div class="files-header">
-          <p>Name</p>
-          <p>Size</p>
-          <p>Date</p>
-        </div>
+      <div class="files-container">
+        <div class="files-content">
+          <p class="files-header">Name</p>
+          <p class="files-header">Size</p>
+          <p class="files-header">Date</p>
+          <div class="files-header">Action</div>
 
-        <ul class="files-list">
           <% if (!currentFolder.is_root) { %>
-          <li><a href="../">Parent directory</a></li>
+          <a href="../" class="item-name files-row">Parent directory</a>
+          <div class="files-row item-size"></div>
+          <div class="files-row"></div>
+          <div class="files-row"></div>
           <% } %>
 
-          <% currentFolderList.forEach((folder) => { %>
-          <li>
-            <a href="./<%= folder.name %>/"><%= folder.name %></a>
-            <p class="folder-size">-</p>
-            <p class="folder-date"><%= folder.formattedDate %></p>
+          <% const splitFormattedDate = (formattedDate) => { const array =
+          formattedDate.split(" - "); return { date: array[0], time: array[1] }
+          } %> <% currentFolderList.forEach((folder) => { %>
+          <a href="./<%= folder.name %>/" class="files-row item-name"
+            ><%= folder.name %></a
+          >
 
-            <button>...</button>
-            <span>
+          <p class="files-row item-size">-</p>
+          <p class="files-row item-date">
+            <% const folderDate = splitFormattedDate(folder.formattedDate) %>
+            <span class="date"><%= folderDate.date %></span>
+            <span class="separator">-</span>
+            <span class="time"><%= folderDate.time %></span>
+          </p>
+
+          <div class="files-row folder-action">
+            <button class="toggle-action-button">...</button>
+            <span class="folder-button-container hidden">
               <button class="rename-button">Rename folder</button>
 
               <% const formAction = `./${encodeURIComponent(folder.name)}/rename-folder/` %>
@@ -79,19 +85,26 @@
                 </button>
               </form>
             </span>
-          </li>
+          </div>
           <% }) %>
 
           <% currentFilesList.forEach((file) => { %>
-          <li>
-            <a href="./<%= file.name %>"><%= file.name %></a>
-            <p class="file-size"><%= file.formattedSize %></p>
-            <p class="file-date"><%= file.formattedDate %></p>
-          </li>
+          <a href="./<%= file.name %>" class="files-row item-name"
+            ><%= file.name %></a
+          >
+          <p class="files-row item-size"><%= file.formattedSize %></p>
+          <p class="files-row item-date">
+            <% const fileDate = splitFormattedDate(file.formattedDate) %>
+            <span class="date"><%= fileDate.date %></span>
+            <span class="separator">-</span>
+            <span class="time"><%= fileDate.time %></span>
+          </p>
+          <div class="files-row folder-action"></div>
           <% }) %>
-        </ul>
+        </div>
       </div>
     </main>
     <script src="/scripts/folderOptions.js"></script>
+    <script src="/scripts/folderActionToggle.js"></script>
   </body>
 </html>
