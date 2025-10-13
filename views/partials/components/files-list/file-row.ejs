@@ -1,0 +1,11 @@
+<% currentFilesList.forEach((file) => { %>
+<a href="./<%= file.name %>" class="files-row item-name"><%= file.name %></a>
+<p class="files-row item-size"><%= file.formattedSize %></p>
+<p class="files-row item-date">
+  <% const fileDate = splitFormattedDate(file.formattedDate) %>
+  <span class="date"><%= fileDate.date %></span>
+  <span class="separator">-</span>
+  <span class="time"><%= fileDate.time %></span>
+</p>
+<div class="files-row folder-action"></div>
+<% }) %>

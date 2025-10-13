@@ -1,0 +1,33 @@
+<% currentFolderList.forEach((folder) => { %>
+
+<a href="./<%= folder.name %>/" class="files-row item-name"
+  ><%= folder.name %></a
+>
+
+<p class="files-row item-size">-</p>
+<p class="files-row item-date">
+  <% const folderDate = splitFormattedDate(folder.formattedDate) %>
+  <span class="date"><%= folderDate.date %></span>
+  <span class="separator">-</span>
+  <span class="time"><%= folderDate.time %></span>
+</p>
+
+<div class="files-row folder-action">
+  <button class="toggle-action-button">...</button>
+  <span class="folder-button-container hidden">
+    <button class="rename-button">Rename folder</button>
+
+    <% const formAction = `./${encodeURIComponent(folder.name)}/rename-folder/` %>
+    <%- include("../modals/folder-name-modal.ejs", { formAction,  buttonName: "Rename", className: "rename-modal"}) %>
+
+    <form action="./<%= folder.name %>/delete-folder/" method="post">
+      <button
+        type="submit"
+        onclick="return confirm('Do you really want to delete folder <%= folder.name %> and all of its content ? This action is irreversible.');"
+      >
+        Delete folder
+      </button>
+    </form>
+  </span>
+</div>
+<% }) %>
