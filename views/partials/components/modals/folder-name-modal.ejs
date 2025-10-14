@@ -1,16 +1,30 @@
-<dialog class="<%= className %>">
+<dialog class="folder-modal <%= className %>">
   <form action="<%= formAction %>" method="post">
     <button
       class="close-modal-button"
       type="button"
       aria-label="Close write folder name modal"
     >
-      x
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="lucide lucide-x-icon lucide-x"
+      >
+        <path d="M18 6 6 18" />
+        <path d="m6 6 12 12" />
+      </svg>
     </button>
     <label>
       Folder Name
-      <input type="text" name="folderName" />
-      <button type="submit"><%= buttonName %></button>
+      <div class="input-container">
+        <input type="text" name="folderName" required />
+        <button type="submit"><%= buttonName %></button>
+      </div>
     </label>
   </form>
 </dialog>

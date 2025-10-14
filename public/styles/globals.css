@@ -127,3 +127,7 @@ main {
 button:hover {
   cursor: pointer;
 }
+
+button:active {
+  box-shadow: none;
+}
