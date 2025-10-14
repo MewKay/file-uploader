@@ -1,7 +1,7 @@
 const createButton = document.querySelector(".new-folder-button");
 const newFolderDialog = document.querySelector(".new-folder-modal");
 
-const renameButtons = document.querySelectorAll(".rename-button");
+const renameButtons = document.querySelectorAll(".rename-folder");
 const renameDialogButtonPairs = Array.from(renameButtons).map((button) => {
   const container = button.closest("span");
   const dialog = container.querySelector(".rename-modal");

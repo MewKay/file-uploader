@@ -1,4 +1,4 @@
-const toggleButtons = document.querySelectorAll(".toggle-action-button");
+const toggleButtons = document.querySelectorAll(".toggle-action");
 const actionContainers = document.querySelectorAll(".folder-button-container");
 
 window.addEventListener("click", (event) => {
@@ -9,9 +9,9 @@ window.addEventListener("click", (event) => {
     actionContainers[index].classList.add("hidden");
   }
 
-  const clickedToggleButton = clickedElement.closest(".toggle-action-button");
+  const clickedToggleButton = clickedElement.closest(".toggle-action");
 
-  if (clickedElement) {
+  if (clickedToggleButton) {
     const clickedButtonContainer = clickedElement
       .closest(".folder-action")
       .querySelector(".folder-button-container");
