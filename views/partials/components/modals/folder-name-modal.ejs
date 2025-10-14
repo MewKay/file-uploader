@@ -1,4 +1,4 @@
-<dialog class="folder-modal <%= className %>">
+<dialog class="folder-modal modal <%= className %>">
   <form action="<%= formAction %>" method="post">
     <button
       class="close-modal-button"
@@ -23,7 +23,7 @@
       Folder Name
       <div class="input-container">
         <input type="text" name="folderName" required />
-        <button type="submit"><%= buttonName %></button>
+        <button class="modal-button" type="submit"><%= buttonName %></button>
       </div>
     </label>
   </form>

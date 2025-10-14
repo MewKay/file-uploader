@@ -6,19 +6,7 @@
     <button class="open-upload-modal-button">Upload a file</button>
   </div>
 
-  <dialog class="file-upload-modal">
-    <form action="./upload-file/" method="post" enctype="multipart/form-data">
-      <button
-        class="close-modal-button"
-        type="button"
-        kkaria-label="Close write folder name modal"
-      >
-        x
-      </button>
-      <input type="file" name="uploaded_file" />
-      <button type="submit">Upload</button>
-    </form>
-  </dialog>
+  <%- include("./modals/file-upload-modal.ejs") %>
   <%- include("./modals/folder-name-modal.ejs", { 
               formAction: "./new-folder/", 
               buttonName: "Create", 

@@ -1,4 +1,4 @@
-.folder-modal {
+.modal {
   position: relative;
   top: 50%;
   left: 50%;
@@ -12,8 +12,17 @@
   color: var(--grey-100);
 }
 
-.folder-modal::backdrop {
+.modal::backdrop {
   backdrop-filter: blur(1px) brightness(0.7);
+}
+
+.modal-button {
+  border: none;
+  border-radius: var(--radius-small);
+  padding: var(--spacing-1) var(--spacing-2);
+  background-color: var(--grey-700);
+  color: var(--grey-100);
+  box-shadow: var(--raise-grey-small), var(--raise-small-shadow);
 }
 
 .close-modal-button {

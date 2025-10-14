@@ -1,0 +1,45 @@
+.file-upload-modal {
+  padding: var(--spacing-6);
+  padding-bottom: var(--spacing-5);
+}
+
+.file-upload-modal .close-modal-button {
+  top: var(--spacing-2);
+  right: var(--spacing-2);
+}
+
+.file-upload-modal form {
+  display: flex;
+  flex-direction: column;
+}
+
+.upload-zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-7);
+  margin-bottom: var(--spacing-5);
+  background-color: var(--grey-900);
+  box-shadow: var(--inset), var(--inset-shadow);
+  border-radius: var(--radius-small);
+  text-wrap: nowrap;
+  font-weight: var(--font-weight-bold);
+}
+
+.upload-zone svg {
+  height: var(--spacing-8);
+  width: var(--spacing-8);
+}
+
+.upload-zone:hover {
+  cursor: pointer;
+}
+
+.upload-zone input {
+  display: none;
+}
+
+.file-upload-modal .modal-button {
+  align-self: flex-end;
+}
