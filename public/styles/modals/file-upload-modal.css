@@ -52,6 +52,8 @@
   font-weight: var(--font-weight-normal);
 }
 
-.file-upload-modal .modal-button {
+.file-upload-modal .button-container {
+  display: flex;
+  gap: var(--spacing-3);
   align-self: flex-end;
 }

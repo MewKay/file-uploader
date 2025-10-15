@@ -110,7 +110,6 @@
 
 body {
   width: auto;
-  height: 100vh;
   background-color: var(--grey-900);
   color: var(--grey-100);
   font-weight: var(--font-weight-normal);

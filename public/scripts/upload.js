@@ -2,6 +2,7 @@ const { fileConstraints, formatFileSize } = imports;
 
 const uploadZone = document.querySelector(".upload-zone");
 const fileInput = document.querySelector("#file-input");
+const clearFileButton = document.querySelector("button.clear-file");
 const templates = {
   noFile: document.querySelector("#no-file-template").content,
   invalidFile: document.querySelector("#invalid-file-template").content,
@@ -33,8 +34,9 @@ const isFileValidMimetype = (mimetype) => {
   );
 };
 
+// Event Listeners
 window.addEventListener("DOMContentLoaded", () => {
-  uploadZone.prepend(templates.noFile);
+  uploadZone.prepend(cloneTemplate(templates.noFile));
 });
 
 fileInput.addEventListener("change", () => {
@@ -49,4 +51,9 @@ fileInput.addEventListener("change", () => {
   } else {
     uploadZone.prepend(cloneTemplate(templates.fileInfo, selectedFile));
   }
+});
+
+clearFileButton.addEventListener("click", () => {
+  uploadZone.removeChild(uploadZone.firstElementChild);
+  uploadZone.prepend(cloneTemplate(templates.noFile));
 });

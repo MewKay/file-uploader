@@ -99,7 +99,8 @@
 
 @media (min-width: 760px) {
   .files-container {
-    border: solid 1px var(--grey-800);
+    border-left: solid 1px var(--grey-800);
+    border-right: solid 1px var(--grey-800);
   }
 
   .files-content {

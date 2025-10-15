@@ -12,7 +12,7 @@
   font-size: var(--font-size-5);
 }
 
-.button-container {
+.heading > .button-container {
   display: flex;
   align-self: flex-end;
   flex-direction: column;
