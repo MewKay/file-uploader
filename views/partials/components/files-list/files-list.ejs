@@ -6,6 +6,6 @@ formattedDate.split(" - "); return { date: array[0], time: array[1] } } %>
     <%- include("./header.ejs") %> <%- include("./parent-directory-row.ejs", {
     currentFolder }); %> <%- include("./folder-row.ejs", { currentFolderList,
     splitFormattedDate }) %> <%- include("./file-row.ejs", { currentFilesList,
-    splitFormattedDate }) %>
+    splitFormattedDate, folderPath }) %>
   </div>
 </div>

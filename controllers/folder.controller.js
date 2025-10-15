@@ -45,6 +45,7 @@ const filesGet = async (req, res) => {
       fileConstraints,
       formatFileSize,
     },
+    folderPath: folderPathParams?.join("/"),
     currentFolder,
     currentFolderList,
     currentFilesList,
