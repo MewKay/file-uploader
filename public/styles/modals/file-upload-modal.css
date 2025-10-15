@@ -57,3 +57,7 @@
   gap: var(--spacing-3);
   align-self: flex-end;
 }
+
+.file-info.invalid {
+  color: var(--accent-3-500);
+}

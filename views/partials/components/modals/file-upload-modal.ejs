@@ -1,5 +1,5 @@
 <template id="no-file-template">
-  <p class="upload-preview">
+  <div class="upload-preview">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
@@ -14,12 +14,12 @@
       <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242" />
       <path d="m8 17 4-4 4 4" />
     </svg>
-    Choose a file to browse
-  </p>
+    <p class="message">Browse file to upload</p>
+  </div>
 </template>
 
-<template id="invalid-file-template">
-  <p class="upload-preview">
+<template id="invalid-file-type-template">
+  <div class="upload-preview">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
@@ -37,8 +37,35 @@
       <path d="m15 17 5 5" />
       <path d="m20 17-5 5" />
     </svg>
-    Invalid file type. Please choose a valid type.
-  </p>
+    <p class="file-info name invalid"></p>
+    <p class="message">Invalid file type. Please choose a valid type.</p>
+  </div>
+</template>
+
+<template id="invalid-file-size-template">
+  <div class="upload-preview">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class="lucide lucide-file-xcorner-icon lucide-file-x-corner"
+    >
+      <path
+        d="M11 22H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.706.706l3.588 3.588A2.4 2.4 0 0 1 20 8v5"
+      />
+      <path d="M14 2v5a1 1 0 0 0 1 1h5" />
+      <path d="m15 17 5 5" />
+      <path d="m20 17-5 5" />
+    </svg>
+
+    <p class="file-info name"></p>
+    <p class="file-info size invalid"></p>
+    <p class="message">Invalid file size. File is too large.</p>
+  </div>
 </template>
 
 <template id="file-info-template">

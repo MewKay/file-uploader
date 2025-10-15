@@ -5,7 +5,10 @@ const fileInput = document.querySelector("#file-input");
 const clearFileButton = document.querySelector("button.clear-file");
 const templates = {
   noFile: document.querySelector("#no-file-template").content,
-  invalidFile: document.querySelector("#invalid-file-template").content,
+  invalidFileType: document.querySelector("#invalid-file-type-template")
+    .content,
+  invalidFileSize: document.querySelector("#invalid-file-size-template")
+    .content,
   fileInfo: document.querySelector("#file-info-template").content,
 };
 
@@ -17,7 +20,7 @@ const cloneTemplate = (template, fileToInsert = null) => {
     const sizeInfo = container.querySelector(".file-info.size");
 
     nameInfo.textContent = fileToInsert.name;
-    sizeInfo.textContent = formatFileSize(fileToInsert.size);
+    if (sizeInfo) sizeInfo.textContent = formatFileSize(fileToInsert.size);
   }
 
   return container;
@@ -34,6 +37,10 @@ const isFileValidMimetype = (mimetype) => {
   );
 };
 
+const isFileValidSize = (size) => {
+  return size < fileConstraints.fileSizeLimit;
+};
+
 // Event Listeners
 window.addEventListener("DOMContentLoaded", () => {
   uploadZone.prepend(cloneTemplate(templates.noFile));
@@ -47,7 +54,9 @@ fileInput.addEventListener("change", () => {
   if (!selectedFile) {
     uploadZone.prepend(cloneTemplate(templates.noFile));
   } else if (!isFileValidMimetype(selectedFile.type)) {
-    uploadZone.prepend(cloneTemplate(templates.invalidFile));
+    uploadZone.prepend(cloneTemplate(templates.invalidFileType, selectedFile));
+  } else if (!isFileValidSize(selectedFile.size)) {
+    uploadZone.prepend(cloneTemplate(templates.invalidFileSize, selectedFile));
   } else {
     uploadZone.prepend(cloneTemplate(templates.fileInfo, selectedFile));
   }
