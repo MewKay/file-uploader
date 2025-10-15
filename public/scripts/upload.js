@@ -2,6 +2,9 @@ const { fileConstraints, formatFileSize } = imports;
 
 const uploadZone = document.querySelector(".upload-zone");
 const fileInput = document.querySelector("#file-input");
+const uploadSubmitButton = document.querySelector(
+  ".file-upload-modal button[type='submit']",
+);
 const clearFileButton = document.querySelector("button.clear-file");
 const templates = {
   noFile: document.querySelector("#no-file-template").content,
@@ -44,10 +47,12 @@ const isFileValidSize = (size) => {
 // Event Listeners
 window.addEventListener("DOMContentLoaded", () => {
   uploadZone.prepend(cloneTemplate(templates.noFile));
+  uploadSubmitButton.disabled = true;
 });
 
 fileInput.addEventListener("change", () => {
   uploadZone.removeChild(uploadZone.firstElementChild);
+  uploadSubmitButton.disabled = true;
 
   const selectedFile = fileInput.files[0];
 
@@ -59,6 +64,7 @@ fileInput.addEventListener("change", () => {
     uploadZone.prepend(cloneTemplate(templates.invalidFileSize, selectedFile));
   } else {
     uploadZone.prepend(cloneTemplate(templates.fileInfo, selectedFile));
+    uploadSubmitButton.disabled = false;
   }
 });
 
