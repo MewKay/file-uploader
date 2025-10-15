@@ -1,6 +1,8 @@
 .file-upload-modal {
   padding: var(--spacing-6);
   padding-bottom: var(--spacing-5);
+  width: 100%;
+  max-width: var(--spacing-13);
 }
 
 .file-upload-modal .close-modal-button {
@@ -15,7 +17,6 @@
 
 .upload-zone {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: var(--spacing-7);
@@ -23,13 +24,13 @@
   background-color: var(--grey-900);
   box-shadow: var(--inset), var(--inset-shadow);
   border-radius: var(--radius-small);
-  text-wrap: nowrap;
   font-weight: var(--font-weight-bold);
 }
 
 .upload-zone svg {
   height: var(--spacing-8);
   width: var(--spacing-8);
+  margin-bottom: var(--spacing-3);
 }
 
 .upload-zone:hover {
@@ -38,6 +39,17 @@
 
 .upload-zone input {
   display: none;
+}
+
+.upload-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.upload-preview .file-info.size {
+  font-weight: var(--font-weight-normal);
 }
 
 .file-upload-modal .modal-button {

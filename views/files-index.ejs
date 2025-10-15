@@ -16,7 +16,15 @@
       <%- include("partials/components/files-list/files-list.ejs", 
         { currentFolder, currentFolderList, currentFilesList }) %>
     </main>
+
+    <script>
+      const imports = {
+        fileConstraints: <%- JSON.stringify(fileUtils.fileConstraints) %>,
+        formatFileSize: <%- fileUtils.formatFileSize %>
+      }
+    </script>
     <script src="/scripts/folderOptions.js"></script>
     <script src="/scripts/folderActionToggle.js"></script>
+    <script src="/scripts/upload.js"></script>
   </body>
 </html>
