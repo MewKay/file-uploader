@@ -3,13 +3,11 @@ const logInValidator = require("../middlewares/validators/log-in.validator");
 const logInValidationHandler = require("../middlewares/validators/log-in.handler");
 
 const logInGet = (req, res) => {
-  const { messages, signUpSuccessMessage } = req.session;
-  delete req.session.signUpSuccessMessage;
+  const { messages } = req.session;
 
   res.render("log-in", {
     title: "Log In",
     authFailureMessages: messages?.pop(),
-    signUpSuccessMessage: signUpSuccessMessage,
   });
 };
 

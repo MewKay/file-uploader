@@ -32,8 +32,11 @@ const signUpPost = [
       },
     });
 
-    req.session.signUpSuccessMessage =
-      "Account created successfully! You can now log in.";
+    req.flash(
+      "signUpSuccess",
+      "Account created successfully! You can now log in.",
+    );
+
     res.redirect("/log-in");
   },
 ];
