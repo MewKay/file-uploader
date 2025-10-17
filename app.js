@@ -18,6 +18,10 @@ app.use(session);
 require("./config/passport");
 app.use(passport.session());
 
+// Middlewares setup
+const flash = require("express-flash");
+app.use(flash());
+
 // Routes
 const indexRouter = require("./routes/index.router");
 const signUpRouter = require("./routes/sign-up.router");
