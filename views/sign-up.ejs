@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <%- include("partials/head.ejs", { title }) %>
+    <link rel="stylesheet" href="/styles/auth/auth.css" />
   </head>
   <body>
     <main>
@@ -9,11 +10,11 @@
         <h3>Create your account</h3>
 
         <% if (locals.validationErrors) { %>
-          <ul class="error-messages">
-            <% validationErrors.forEach((error) => { %>
-              <li><%= error.msg %></li>
-            <% }) %>    
-          </ul>
+        <ul class="error-messages">
+          <% validationErrors.forEach((error) => { %>
+          <li><%= error.msg %></li>
+          <% }) %>
+        </ul>
         <% } %>
 
         <div class="username-container input">
