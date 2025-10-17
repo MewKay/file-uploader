@@ -1,0 +1,124 @@
+<template id="no-file-template">
+  <div class="upload-preview">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class="lucide lucide-cloud-upload-icon lucide-cloud-upload"
+    >
+      <path d="M12 13v8" />
+      <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242" />
+      <path d="m8 17 4-4 4 4" />
+    </svg>
+    <p class="message">Browse file to upload</p>
+  </div>
+</template>
+
+<template id="invalid-file-type-template">
+  <div class="upload-preview">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class="lucide lucide-file-xcorner-icon lucide-file-x-corner"
+    >
+      <path
+        d="M11 22H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.706.706l3.588 3.588A2.4 2.4 0 0 1 20 8v5"
+      />
+      <path d="M14 2v5a1 1 0 0 0 1 1h5" />
+      <path d="m15 17 5 5" />
+      <path d="m20 17-5 5" />
+    </svg>
+    <p class="file-info name invalid"></p>
+    <p class="message">Invalid file type. Please choose a valid type.</p>
+  </div>
+</template>
+
+<template id="invalid-file-size-template">
+  <div class="upload-preview">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class="lucide lucide-file-xcorner-icon lucide-file-x-corner"
+    >
+      <path
+        d="M11 22H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.706.706l3.588 3.588A2.4 2.4 0 0 1 20 8v5"
+      />
+      <path d="M14 2v5a1 1 0 0 0 1 1h5" />
+      <path d="m15 17 5 5" />
+      <path d="m20 17-5 5" />
+    </svg>
+
+    <p class="file-info name"></p>
+    <p class="file-info size invalid"></p>
+    <p class="message">Invalid file size. File is too large.</p>
+  </div>
+</template>
+
+<template id="file-info-template">
+  <div class="upload-preview">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class="lucide lucide-file-check-corner-icon lucide-file-check-corner"
+    >
+      <path
+        d="M10.5 22H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.706.706l3.588 3.588A2.4 2.4 0 0 1 20 8v6"
+      />
+      <path d="M14 2v5a1 1 0 0 0 1 1h5" />
+      <path d="m14 20 2 2 4-4" />
+    </svg>
+    <p class="file-info name"></p>
+    <p class="file-info size"></p>
+  </div>
+</template>
+
+<dialog class="file-upload-modal modal">
+  <form action="./upload-file/" method="post" enctype="multipart/form-data">
+    <button
+      class="close-modal-button"
+      type="button"
+      aria-label="Close write folder name modal"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="lucide lucide-x-icon lucide-x"
+      >
+        <path d="M18 6 6 18" />
+        <path d="m6 6 12 12" />
+      </svg>
+    </button>
+
+    <label class="upload-zone">
+      <input id="file-input" type="file" name="uploaded_file" />
+    </label>
+    <div class="button-container">
+      <button class="modal-button clear-file" type="reset">Clear</button>
+      <button class="modal-button" type="submit">Upload</button>
+    </div>
+  </form>
+</dialog>

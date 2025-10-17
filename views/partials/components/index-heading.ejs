@@ -1,0 +1,15 @@
+<div class="heading">
+  <h3><%= currentFolder.name %></h3>
+
+  <div class="button-container">
+    <button class="new-folder-button">Create a new folder</button>
+    <button class="open-upload-modal-button">Upload a file</button>
+  </div>
+
+  <%- include("./modals/file-upload-modal.ejs") %>
+  <%- include("./modals/folder-name-modal.ejs", { 
+              formAction: "./new-folder/", 
+              buttonName: "Create", 
+              className: "new-folder-modal" 
+            }) %>
+</div>

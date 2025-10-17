@@ -1,0 +1,42 @@
+.heading,
+.file-details-container {
+  max-width: var(--max-width);
+  width: 100%;
+}
+
+.heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 0 var(--spacing-4);
+  font-size: var(--font-size-5);
+  margin-bottom: var(--spacing-4);
+}
+
+.heading h3 {
+  font-size: var(--font-size-6);
+}
+
+.file-details-container {
+  background-color: var(--grey-800);
+  box-shadow: var(--shadow-2);
+  border-radius: var(--radius-medium);
+  padding: var(--spacing-4) var(--spacing-6);
+}
+
+.upload-time-message {
+  font-size: var(--font-size-4);
+  margin-bottom: var(--spacing-6);
+}
+
+.action-container {
+  display: flex;
+  gap: var(--spacing-4);
+}
+
+.action-container a {
+  color: var(--grey-100);
+  font-size: var(--font-size-5);
+  font-weight: var(--font-weight-bold);
+  text-underline-offset: 4px;
+}

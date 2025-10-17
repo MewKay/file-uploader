@@ -1,0 +1,33 @@
+.heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: var(--max-width);
+  padding: 0 var(--spacing-4);
+  margin-bottom: var(--spacing-4);
+  width: 100%;
+}
+
+.heading h3 {
+  font-size: var(--font-size-5);
+}
+
+.heading > .button-container {
+  display: flex;
+  align-self: flex-end;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  min-width: var(--spacing-11);
+}
+
+.new-folder-button,
+.open-upload-modal-button {
+  border: none;
+  border-radius: var(--radius-small);
+  background-color: var(--grey-700);
+  color: var(--grey-100);
+  font-size: var(--font-size-4);
+  font-weight: var(--font-weight-bold);
+  padding: var(--spacing-3) var(--spacing-4);
+  box-shadow: var(--raise-grey-large), var(--raise-large-shadow);
+}

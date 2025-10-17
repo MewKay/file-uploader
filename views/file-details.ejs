@@ -2,13 +2,20 @@
 <html lang="en">
   <head>
     <%- include("partials/head.ejs", { title: fileDetails.name }) %>
+    <link rel="stylesheet" href="/styles/header.css" />
+    <link rel="stylesheet" href="/styles/file-details.css" />
   </head>
   <body>
+    <%- include("partials/header.ejs") %>
     <main>
-      <div>
+      <div class="heading">
         <h3><%= fileDetails.name %></h3>
-        <p><%= fileDetails.formattedSize %></p>
-        <p>Uploaded at <%= fileDetails.formattedFullDate %></p>
+        <p class="file-size"><%= fileDetails.formattedSize %></p>
+      </div>
+      <div class="file-details-container">
+        <p class="upload-time-message">
+          Uploaded at <%= fileDetails.formattedFullDate %>
+        </p>
         <div class="action-container">
           <a href="./">Back to parent directory</a>
           <a href="/files/download?filepath=<%= filepath %>"> Download File </a>

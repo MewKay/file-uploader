@@ -1,18 +1,8 @@
 const multer = require("multer");
-
-const FIVE_MB = 5 * 1024 * 1024;
-const ACCEPTED_FILE_TYPES = ["image", "text", "audio", "video"];
-const ACCEPTED_DOCUMENTS = [
-  "application/pdf",
-  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-  "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-];
-const ACCEPTED_ARCHIVES = [
-  "application/zip",
-  "application/gzip",
-  "application/x-7z-compressed",
-];
+const {
+  fileSizeLimit,
+  validMimetypes,
+} = require("../constants/file-constraints");
 
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
@@ -26,16 +16,18 @@ const storage = multer.diskStorage({
 });
 
 const limits = {
-  fileSize: FIVE_MB,
+  fileSize: fileSizeLimit,
   files: 1,
 };
 
 const fileFilter = (req, file, callback) => {
+  const { fileTypes, archives, documents } = validMimetypes;
+
   const fileType = file.mimetype.split("/")[0];
   const isFileAcceptedMimeType =
-    ACCEPTED_FILE_TYPES.includes(fileType) ||
-    ACCEPTED_ARCHIVES.includes(file.mimetype) ||
-    ACCEPTED_DOCUMENTS.includes(file.mimetype);
+    fileTypes.includes(fileType) ||
+    archives.includes(file.mimetype) ||
+    documents.includes(file.mimetype);
 
   if (!isFileAcceptedMimeType) {
     return callback(new Error(`Mimetype ${file.mimetype} is invalid`));

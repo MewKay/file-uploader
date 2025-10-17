@@ -9,6 +9,8 @@ const {
 const folderNameValidator = require("../middlewares/validators/folder-name.validator");
 const folderNameValidationHandler = require("../middlewares/validators/folder-name.handler");
 const upload = require("../config/multer");
+const fileConstraints = require("../constants/file-constraints");
+const { formatFileSize } = require("../utils/file.util");
 
 const filesGet = async (req, res) => {
   const { user } = req;
@@ -39,6 +41,11 @@ const filesGet = async (req, res) => {
   });
 
   res.render("files-index", {
+    fileUtils: {
+      fileConstraints,
+      formatFileSize,
+    },
+    folderPath: folderPathParams?.join("/"),
     currentFolder,
     currentFolderList,
     currentFilesList,

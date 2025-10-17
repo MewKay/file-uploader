@@ -2,24 +2,25 @@
 <html lang="en">
   <head>
     <%- include("partials/head.ejs", { title }) %>
+    <link rel="stylesheet" href="/styles/auth/auth.css" />
   </head>
   <body>
     <main>
       <form action="/log-in" method="post">
         <h3>Log in to your account</h3>
 
+        <% if (locals.signUpSuccessMessage) { %>
+        <p class="success message"><%= signUpSuccessMessage %></p>
+        <% } %>
+
         <% if (locals.authFailureMessages) { %>
-         <ul class="error-messages">
-          <li><%= authFailureMessages %></li>
-         </ul>
+        <%- include("./partials/components/alert.ejs", 
+        { errorMessages: authFailureMessages }) %>
         <% } %>
 
         <% if (locals.validationErrors) { %>
-         <ul class="error-messages">
-          <% validationErrors.forEach((error) => { %>
-            <li><%= error.msg %></li>
-          <% }) %>
-         </ul>
+        <%- include("./partials/components/alert.ejs", 
+        { errorMessages: validationErrors}) %>
         <% } %>
 
         <div class="username-container input">

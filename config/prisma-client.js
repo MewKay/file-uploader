@@ -1,6 +1,6 @@
 const { PrismaClient } = require("../generated/prisma");
 const { format } = require("date-fns");
-const { formatFileSize } = require("../utils/prisma.util");
+const { formatFileSize } = require("../utils/file.util");
 
 const prisma = new PrismaClient()
   .$extends({

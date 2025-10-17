@@ -1,0 +1,101 @@
+<% currentFolderList.forEach((folder) => { %>
+
+<a href="./<%= folder.name %>/" class="files-row item-name">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    class="lucide lucide-folder-icon lucide-folder"
+  >
+    <path
+      d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"
+    />
+  </svg>
+  <%= folder.name %></a
+>
+
+<p class="files-row item-size">-</p>
+<p class="files-row item-date">
+  <% const folderDate = splitFormattedDate(folder.formattedDate) %>
+  <span class="date"><%= folderDate.date %></span>
+  <span class="separator">-</span>
+  <span class="time"><%= folderDate.time %></span>
+</p>
+
+<div class="files-row folder-action">
+  <button
+    class="toggle-action action-button"
+    aria-label="Toggle <%= folder.name %> action buttons"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class="lucide lucide-ellipsis-vertical-icon lucide-ellipsis-vertical"
+    >
+      <circle cx="12" cy="12" r="1" />
+      <circle cx="12" cy="5" r="1" />
+      <circle cx="12" cy="19" r="1" />
+    </svg>
+  </button>
+  <span class="folder-button-container hidden">
+    <button
+      class="rename-folder action-button"
+      aria-label="Rename <%= folder.name %> folder"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="lucide lucide-pencil-icon lucide-pencil"
+      >
+        <path
+          d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
+        />
+        <path d="m15 5 4 4" />
+      </svg>
+    </button>
+
+    <% const formAction = `./${encodeURIComponent(folder.name)}/rename-folder/` %>
+    <%- include("../modals/folder-name-modal.ejs", { formAction,  buttonName: "Rename", className: "rename-modal"}) %>
+
+    <form action="./<%= folder.name %>/delete-folder/" method="post">
+      <button
+        class="delete-folder action-button"
+        type="submit"
+        onclick="return confirm('Do you really want to delete folder <%= folder.name %> and all of its content ? This action is irreversible.');"
+        aria-label="Delete <%= folder.name %> folder"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-trash2-icon lucide-trash-2"
+        >
+          <path d="M10 11v6" />
+          <path d="M14 11v6" />
+          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+          <path d="M3 6h18" />
+          <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+        </svg>
+      </button>
+    </form>
+  </span>
+</div>
+<% }) %>

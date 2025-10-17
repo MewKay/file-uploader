@@ -1,0 +1,11 @@
+<% const splitFormattedDate = (formattedDate) => { const array =
+formattedDate.split(" - "); return { date: array[0], time: array[1] } } %>
+
+<div class="files-container">
+  <div class="files-content">
+    <%- include("./header.ejs") %> <%- include("./parent-directory-row.ejs", {
+    currentFolder }); %> <%- include("./folder-row.ejs", { currentFolderList,
+    splitFormattedDate }) %> <%- include("./file-row.ejs", { currentFilesList,
+    splitFormattedDate, folderPath }) %>
+  </div>
+</div>

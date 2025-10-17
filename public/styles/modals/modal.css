@@ -1,0 +1,76 @@
+.modal {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  border: none;
+  border-radius: var(--radius-medium);
+  box-shadow: var(--shadow-3);
+  padding: var(--spacing-3) var(--spacing-4);
+  padding-top: var(--spacing-4);
+  background-color: var(--grey-800);
+  color: var(--grey-100);
+}
+
+.modal::backdrop {
+  backdrop-filter: blur(1px) brightness(0.7);
+}
+
+.modal-button {
+  border: none;
+  border-radius: var(--radius-small);
+  padding: var(--spacing-1) var(--spacing-2);
+  background-color: var(--grey-700);
+  color: var(--grey-100);
+  box-shadow: var(--raise-grey-small), var(--raise-small-shadow);
+}
+
+.close-modal-button {
+  position: absolute;
+  top: var(--spacing-4);
+  right: var(--spacing-4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-1);
+  border: none;
+  border-radius: var(--radius-full);
+  background-color: var(--accent-3-600);
+}
+
+.close-modal-button svg {
+  height: var(--spacing-4);
+  width: var(--spacing-4);
+  color: var(--grey-100);
+}
+
+.folder-modal label {
+  font-size: var(--font-size-4);
+  font-weight: var(--font-weight-bold);
+}
+
+.folder-modal .input-container {
+  display: flex;
+  gap: var(--spacing-3);
+  margin-top: var(--spacing-2);
+}
+
+.folder-modal input {
+  border: none;
+  border-radius: var(--radius-small);
+  background-color: var(--grey-900);
+  color: var(--grey-100);
+  font-weight: var(--font-weight-normal);
+  padding: var(--spacing-1) var(--spacing-2);
+  box-shadow: var(--inset), var(--inset-shadow);
+  min-width: var(--spacing-10);
+}
+
+.folder-modal .input-container button {
+  border: none;
+  border-radius: var(--radius-small);
+  padding: var(--spacing-1) var(--spacing-2);
+  background-color: var(--grey-700);
+  color: var(--grey-100);
+  box-shadow: var(--raise-grey-large), var(--raise-large-shadow);
+}
