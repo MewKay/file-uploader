@@ -28,9 +28,9 @@
         </div>
         <% } %>
 
-        <% if (locals.authFailureMessages) { %>
+        <% if (locals.messages.error) { %>
         <%- include("./partials/components/alert.ejs", 
-        { errorMessages: authFailureMessages }) %>
+        { errorMessages: messages.error[0] }) %>
         <% } %>
 
         <% if (locals.validationErrors) { %>

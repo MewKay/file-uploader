@@ -3,11 +3,8 @@ const logInValidator = require("../middlewares/validators/log-in.validator");
 const logInValidationHandler = require("../middlewares/validators/log-in.handler");
 
 const logInGet = (req, res) => {
-  const { messages } = req.session;
-
   res.render("log-in", {
     title: "Log In",
-    authFailureMessages: messages?.pop(),
   });
 };
 
@@ -17,7 +14,7 @@ const logInPost = [
   passport.authenticate("local", {
     successRedirect: "/files",
     failureRedirect: "/log-in",
-    failureMessage: true,
+    failureFlash: true,
   }),
 ];
 
