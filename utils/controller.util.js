@@ -67,6 +67,7 @@ const queryFolderFromPath = async function queryOwnersFolderFromPath(
     where: {
       path: idPath,
       name: folderName,
+      owner_id: ownerId,
     },
   });
 
