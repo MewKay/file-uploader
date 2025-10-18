@@ -27,10 +27,13 @@ const indexRouter = require("./routes/index.router");
 const signUpRouter = require("./routes/sign-up.router");
 const logInRouter = require("./routes/log-in.router");
 const folderRouter = require("./routes/folder.router");
+const errorHandler = require("./middlewares/error-handler");
 app.use("/", indexRouter);
 app.use("/sign-up", signUpRouter);
 app.use("/log-in", logInRouter);
 app.use("/files", folderRouter);
+
+app.use(errorHandler);
 
 // Server
 const PORT = process.env.PORT || 3000;
