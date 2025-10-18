@@ -1,5 +1,4 @@
 const prisma = require("../config/prisma-client");
-const NotFoundError = require("../errors/not-found.error");
 
 const paramsArrayPathToIdPath =
   async function queryCurrentFolderIdPathFromFolderParamsArray(
@@ -36,7 +35,7 @@ const paramsArrayPathToIdPath =
       });
 
       if (!folder) {
-        throw new NotFoundError("Provided path is invalid");
+        return null;
       }
 
       idPathArray.push(folder.id);
@@ -64,6 +63,10 @@ const queryFolderFromPath = async function queryOwnersFolderFromPath(
 
   const idPath = await paramsArrayPathToIdPath(ownerId, paramsArray);
 
+  if (!idPath) {
+    return null;
+  }
+
   const folder = await prisma.folder.findFirst({
     where: {
       path: idPath,
@@ -87,6 +90,11 @@ const queryFileFromPath = async function queryOwnersFileFromPath(
   }
 
   const parentFolder = await queryFolderFromPath(userId, filePathParams);
+
+  if (!parentFolder) {
+    return null;
+  }
+
   const file = await prisma.file.findFirst({
     where: {
       owner_id: userId,
@@ -120,7 +128,7 @@ const idPathToUrl = async function translateIdPathToFolderUrl(userId, idPath) {
   });
 
   if (!rootFolder) {
-    throw new NotFoundError("Provided path is invalid");
+    return null;
   }
 
   if (idPathArray.length <= 0) {
@@ -136,7 +144,7 @@ const idPathToUrl = async function translateIdPathToFolderUrl(userId, idPath) {
     });
 
     if (!folder) {
-      throw new NotFoundError("Provided path is invalid");
+      return null;
     }
 
     paramsArray.push(folder.name);

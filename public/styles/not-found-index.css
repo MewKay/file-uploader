@@ -1,0 +1,23 @@
+main {
+  padding-top: var(--spacing-7);
+}
+
+.files-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-3);
+  min-height: var(--spacing-13);
+  padding: var(--spacing-5);
+  border: solid 1px var(--grey-800);
+}
+
+h3 {
+  font-size: var(--font-size-6);
+}
+
+p,
+a {
+  font-size: var(--font-size-4);
+}

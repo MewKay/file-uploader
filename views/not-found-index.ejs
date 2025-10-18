@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("partials/head.ejs", { title: "404" }) %>
+    <link rel="stylesheet" href="/styles/header.css" />
+    <link rel="stylesheet" href="/styles/modals/file-upload-modal.css" />
+    <link rel="stylesheet" href="/styles/files-index/heading.css" />
+    <link rel="stylesheet" href="/styles/files-index/files-container.css" />
+    <link rel="stylesheet" href="/styles/not-found-index.css" />
+  </head>
+  <body>
+    <%- include("partials/header.ejs") %>
+
+    <main>
+      <div class="files-container">
+        <h3>File or directory does not exist</h3>
+        <p>
+          The file or folder you requested has been moved, deleted, or has never
+          been created
+        </p>
+        <a href="/files/">Return to root folder</a>
+      </div>
+    </main>
+  </body>
+</html>

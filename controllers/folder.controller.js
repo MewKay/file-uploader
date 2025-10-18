@@ -16,8 +16,6 @@ const {
   folderNameParentFolderUrl,
 } = require("../utils/file.util");
 
-const NotFoundError = require("../errors/not-found.error");
-
 const filesGet = asyncHandler(async (req, res) => {
   const { user } = req;
   const { folderPathParams } = req.params;
@@ -25,7 +23,7 @@ const filesGet = asyncHandler(async (req, res) => {
   const currentFolder = await queryFolderFromPath(user.id, folderPathParams);
 
   if (!currentFolder) {
-    throw new NotFoundError("File or directory does not exist");
+    return res.status(404).render("not-found-index");
   }
 
   const currentFolderList = await prisma.folder.findMany({
