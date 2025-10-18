@@ -1,9 +1,14 @@
 const enforceTrailingSlash = (req, res, next) => {
-  if (req.originalUrl.endsWith("/")) {
-    return next();
+  if (!req.originalUrl.endsWith("/")) {
+    req.session.save((error) => {
+      if (error) return next(error);
+      res.status(301).redirect(req.originalUrl + "/");
+    });
+
+    return;
   }
 
-  res.status(301).redirect(req.originalUrl + "/");
+  next();
 };
 
 module.exports = enforceTrailingSlash;

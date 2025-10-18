@@ -10,7 +10,10 @@ const folderNameValidator = require("../middlewares/validators/folder-name.valid
 const folderNameValidationHandler = require("../middlewares/validators/folder-name.handler");
 const upload = require("../config/multer");
 const fileConstraints = require("../constants/file-constraints");
-const { formatFileSize } = require("../utils/file.util");
+const {
+  formatFileSize,
+  folderNameParentFolderUrl,
+} = require("../utils/file.util");
 
 const filesGet = async (req, res) => {
   const { user } = req;
@@ -98,7 +101,7 @@ const createFolder = [
       },
     });
 
-    const parentFolderUrl = "../";
+    const parentFolderUrl = folderNameParentFolderUrl(req.originalUrl);
 
     res.redirect(parentFolderUrl);
   },
@@ -125,8 +128,7 @@ const renameFolder = [
 
     await updateAncestorsDateNow(folder.id);
 
-    // To remove /rename-folder and /folder name from url
-    const parentFolderUrl = "../../";
+    const parentFolderUrl = folderNameParentFolderUrl(req.originalUrl);
 
     res.redirect(parentFolderUrl);
   },
@@ -144,8 +146,7 @@ const deleteFolder = async (req, res) => {
     },
   });
 
-  // To remove /delete-folder/ and /folder name from url
-  const parentFolderUrl = "../../";
+  const parentFolderUrl = folderNameParentFolderUrl(req.originalUrl);
 
   res.redirect(parentFolderUrl);
 };
@@ -169,7 +170,7 @@ const uploadFile = [
       },
     });
 
-    const parentFolderUrl = "../";
+    const parentFolderUrl = folderNameParentFolderUrl(req.originalUrl);
 
     res.redirect(parentFolderUrl);
   },

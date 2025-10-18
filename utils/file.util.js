@@ -37,4 +37,21 @@ const formatFileSize = function formatIntToFilesizeWithUnit(size) {
   return formattedSize;
 };
 
-module.exports = { formatFileSize };
+const folderNameParentFolderUrl = (originalUrl) => {
+  const urlArray = originalUrl.split("/").slice(0, -1);
+
+  const routePath = urlArray.pop();
+  const isRouteNewFolder = routePath.match(/new/);
+  const isRouteRenameFolder = routePath.match(/rename/);
+
+  if (isRouteNewFolder) {
+    return urlArray.join("/") + "/";
+  } else if (isRouteRenameFolder) {
+    urlArray.pop();
+    return urlArray.join("/") + "/";
+  } else {
+    throw new Error("Original url invalid : No proper path");
+  }
+};
+
+module.exports = { formatFileSize, folderNameParentFolderUrl };

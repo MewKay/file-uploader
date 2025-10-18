@@ -9,7 +9,7 @@ const store = new PrismaSessionStore(prisma, {});
 
 const session = expressSession({
   secret: process.env.SESSION_SECRET_ID,
-  resave: false,
+  resave: true,
   saveUninitialized: false,
   store: store,
   cookie: {

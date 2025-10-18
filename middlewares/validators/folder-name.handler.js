@@ -1,4 +1,5 @@
 const { validationResult } = require("express-validator");
+const { folderNameParentFolderUrl } = require("../../utils/file.util");
 
 const folderNameValidationHandler = (req, res, next) => {
   const errors = validationResult(req);
@@ -7,9 +8,16 @@ const folderNameValidationHandler = (req, res, next) => {
     return next();
   }
 
-  const errorsArray = errors.array();
+  const errorsArray = errors
+    .formatWith((error) => ({
+      msg: error.msg,
+    }))
+    .array();
 
-  res.status(400).send(errorsArray[0].msg);
+  req.flash("folderNameErrors", errorsArray);
+
+  const parentFolderUrl = folderNameParentFolderUrl(req.originalUrl);
+  return res.redirect(parentFolderUrl);
 };
 
 module.exports = folderNameValidationHandler;

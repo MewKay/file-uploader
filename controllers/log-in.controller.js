@@ -12,7 +12,7 @@ const logInPost = [
   logInValidator,
   logInValidationHandler,
   passport.authenticate("local", {
-    successRedirect: "/files",
+    successRedirect: "/files/",
     failureRedirect: "/log-in",
     failureFlash: true,
   }),
