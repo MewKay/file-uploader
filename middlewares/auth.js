@@ -1,9 +1,11 @@
+const UnauthorizedError = require("../errors/unauthorized.error");
+
 const isAuth = (req, res, next) => {
-  if (req.isAuthenticated()) {
-    return next();
+  if (!req.isAuthenticated()) {
+    throw new UnauthorizedError("Authentication required");
   }
 
-  res.status(401).redirect("/log-in");
+  next();
 };
 
 module.exports = { isAuth };
