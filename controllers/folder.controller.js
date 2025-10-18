@@ -5,6 +5,7 @@ const {
   queryFileFromPath,
   updateAncestorsDateNow,
 } = require("../utils/controller.util");
+const asyncHandler = require("express-async-handler");
 
 const folderNameValidator = require("../middlewares/validators/folder-name.validator");
 const folderNameValidationHandler = require("../middlewares/validators/folder-name.handler");
@@ -17,7 +18,7 @@ const {
 
 const NotFoundError = require("../errors/not-found.error");
 
-const filesGet = async (req, res) => {
+const filesGet = asyncHandler(async (req, res) => {
   const { user } = req;
   const { folderPathParams } = req.params;
 
@@ -55,12 +56,12 @@ const filesGet = async (req, res) => {
     currentFolderList,
     currentFilesList,
   });
-};
+});
 
 const createRootChildrenFolder = [
   folderNameValidator,
   folderNameValidationHandler,
-  async (req, res) => {
+  asyncHandler(async (req, res) => {
     const { user } = req;
     const { folderName } = req.body;
 
@@ -81,13 +82,13 @@ const createRootChildrenFolder = [
     });
 
     res.redirect("/files/");
-  },
+  }),
 ];
 
 const createFolder = [
   folderNameValidator,
   folderNameValidationHandler,
-  async (req, res) => {
+  asyncHandler(async (req, res) => {
     const { user } = req;
     const { folderPathParams } = req.params;
     const { folderName } = req.body;
@@ -106,13 +107,13 @@ const createFolder = [
     const parentFolderUrl = folderNameParentFolderUrl(req.originalUrl);
 
     res.redirect(parentFolderUrl);
-  },
+  }),
 ];
 
 const renameFolder = [
   folderNameValidator,
   folderNameValidationHandler,
-  async (req, res) => {
+  asyncHandler(async (req, res) => {
     const { user } = req;
     const { folderPathParams } = req.params;
     const { folderName } = req.body;
@@ -133,10 +134,10 @@ const renameFolder = [
     const parentFolderUrl = folderNameParentFolderUrl(req.originalUrl);
 
     res.redirect(parentFolderUrl);
-  },
+  }),
 ];
 
-const deleteFolder = async (req, res) => {
+const deleteFolder = asyncHandler(async (req, res) => {
   const { user } = req;
   const { folderPathParams } = req.params;
 
@@ -151,11 +152,11 @@ const deleteFolder = async (req, res) => {
   const parentFolderUrl = folderNameParentFolderUrl(req.originalUrl);
 
   res.redirect(parentFolderUrl);
-};
+});
 
 const uploadFile = [
   upload.single("uploaded_file"),
-  async (req, res) => {
+  asyncHandler(async (req, res) => {
     const { user, file } = req;
     const { folderPathParams } = req.params;
 
@@ -175,10 +176,10 @@ const uploadFile = [
     const parentFolderUrl = folderNameParentFolderUrl(req.originalUrl);
 
     res.redirect(parentFolderUrl);
-  },
+  }),
 ];
 
-const downloadFile = async (req, res) => {
+const downloadFile = asyncHandler(async (req, res) => {
   const { user } = req;
   const { filepath } = req.query;
   const filePathParams = filepath.split("/");
@@ -187,7 +188,7 @@ const downloadFile = async (req, res) => {
   const fileLocation = path.join(__dirname, "..", "public", file.download_link);
 
   res.download(fileLocation, file.name);
-};
+});
 
 module.exports = {
   filesGet,

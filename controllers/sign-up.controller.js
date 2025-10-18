@@ -1,4 +1,5 @@
 const prisma = require("../config/prisma-client");
+const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcryptjs");
 const { matchedData } = require("express-validator");
 const signUpValidator = require("../middlewares/validators/sign-up.validator");
@@ -11,7 +12,7 @@ const signUpGet = (req, res) => {
 const signUpPost = [
   signUpValidator,
   signUpValidationHandler,
-  async (req, res) => {
+  asyncHandler(async (req, res) => {
     const { username, password } = matchedData(req);
     const SALT = 10;
 
@@ -38,7 +39,7 @@ const signUpPost = [
     );
 
     res.redirect("/log-in");
-  },
+  }),
 ];
 
 module.exports = { signUpGet, signUpPost };

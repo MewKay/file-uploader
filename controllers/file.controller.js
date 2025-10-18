@@ -1,6 +1,7 @@
 const { queryFileFromPath } = require("../utils/controller.util");
+const asyncHandler = require("express-async-handler");
 
-const fileDetailsGet = async (req, res, next) => {
+const fileDetailsGet = asyncHandler(async (req, res, next) => {
   const { user } = req;
   const { folderPathParams } = req.params;
   const filePathParams = structuredClone(folderPathParams);
@@ -16,6 +17,6 @@ const fileDetailsGet = async (req, res, next) => {
     fileDetails: file,
     filepath: folderPathParams.join("/"),
   });
-};
+});
 
 module.exports = { fileDetailsGet };
