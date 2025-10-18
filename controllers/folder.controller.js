@@ -15,6 +15,8 @@ const {
   folderNameParentFolderUrl,
 } = require("../utils/file.util");
 
+const NotFoundError = require("../errors/not-found.error");
+
 const filesGet = async (req, res) => {
   const { user } = req;
   const { folderPathParams } = req.params;
@@ -22,7 +24,7 @@ const filesGet = async (req, res) => {
   const currentFolder = await queryFolderFromPath(user.id, folderPathParams);
 
   if (!currentFolder) {
-    throw new Error("File or directory does not exist");
+    throw new NotFoundError("File or directory does not exist");
   }
 
   const currentFolderList = await prisma.folder.findMany({
