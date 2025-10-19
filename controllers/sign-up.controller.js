@@ -4,10 +4,14 @@ const bcrypt = require("bcryptjs");
 const { matchedData } = require("express-validator");
 const signUpValidator = require("../middlewares/validators/sign-up.validator");
 const signUpValidationHandler = require("../middlewares/validators/sign-up.handler");
+const { authRedirect } = require("../middlewares/auth");
 
-const signUpGet = (req, res) => {
-  res.render("sign-up", { title: "Sign Up" });
-};
+const signUpGet = [
+  authRedirect,
+  (req, res) => {
+    res.render("sign-up", { title: "Sign Up" });
+  },
+];
 
 const signUpPost = [
   signUpValidator,

@@ -8,4 +8,12 @@ const isAuth = (req, res, next) => {
   next();
 };
 
-module.exports = { isAuth };
+const authRedirect = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    return res.redirect("/files/");
+  }
+
+  next();
+};
+
+module.exports = { isAuth, authRedirect };

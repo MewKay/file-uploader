@@ -1,12 +1,16 @@
 const passport = require("passport");
 const logInValidator = require("../middlewares/validators/log-in.validator");
 const logInValidationHandler = require("../middlewares/validators/log-in.handler");
+const { authRedirect } = require("../middlewares/auth");
 
-const logInGet = (req, res) => {
-  res.render("log-in", {
-    title: "Log In",
-  });
-};
+const logInGet = [
+  authRedirect,
+  (req, res) => {
+    res.render("log-in", {
+      title: "Log In",
+    });
+  },
+];
 
 const logInPost = [
   logInValidator,
