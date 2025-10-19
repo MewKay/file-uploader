@@ -1,0 +1,26 @@
+main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: var(--spacing-4);
+  height: 100vh;
+}
+
+svg {
+  height: var(--spacing-10);
+  width: var(--spacing-10);
+}
+
+.error-title {
+  font-size: var(--font-size-7);
+}
+
+.error-text {
+  font-size: var(--font-size-4);
+  max-width: var(--line-length-medium);
+}
+
+.action-prompt {
+  font-size: var(--font-size-4);
+}
