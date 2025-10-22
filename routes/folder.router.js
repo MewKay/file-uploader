@@ -17,6 +17,7 @@ router.post("/{*folderPathParams}/new-folder/", controller.createFolder);
 router.post("/{*folderPathParams}/rename-folder/", controller.renameFolder);
 router.post("/{*folderPathParams}/delete-folder/", controller.deleteFolder);
 
+router.post("/upload-file/", controller.uploadFileToRootFolder);
 router.post("/{*folderPathParams}/upload-file/", controller.uploadFile);
 
 module.exports = router;

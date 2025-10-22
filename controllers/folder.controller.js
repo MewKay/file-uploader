@@ -152,6 +152,33 @@ const deleteFolder = asyncHandler(async (req, res) => {
   res.redirect(parentFolderUrl);
 });
 
+const uploadFileToRootFolder = [
+  upload.single("uploaded_file"),
+  asyncHandler(async (req, res) => {
+    const { user, file } = req;
+
+    const rootFolder = await prisma.folder.findFirst({
+      where: {
+        owner_id: user.id,
+        is_root: true,
+      },
+    });
+
+    await prisma.file.create({
+      data: {
+        name: file.originalname,
+        size: file.size,
+        mime_type: file.mimetype,
+        download_link: "/data/uploads/" + file.filename,
+        owner_id: user.id,
+        parent_id: rootFolder.id,
+      },
+    });
+
+    res.redirect("/files/");
+  }),
+];
+
 const uploadFile = [
   upload.single("uploaded_file"),
   asyncHandler(async (req, res) => {
@@ -194,6 +221,7 @@ module.exports = {
   createFolder,
   renameFolder,
   deleteFolder,
+  uploadFileToRootFolder,
   uploadFile,
   downloadFile,
 };
