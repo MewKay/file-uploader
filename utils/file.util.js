@@ -43,8 +43,10 @@ const folderNameParentFolderUrl = (originalUrl) => {
   const routePath = urlArray.pop();
   const isRouteNewFolder = routePath.match(/new/);
   const isRouteRenameFolder = routePath.match(/rename/);
+  const isRouteShareFolder = routePath.match(/share/);
+  const isRouteUploadFile = routePath.match(/upload/);
 
-  if (isRouteNewFolder) {
+  if (isRouteNewFolder || isRouteShareFolder || isRouteUploadFile) {
     return urlArray.join("/") + "/";
   } else if (isRouteRenameFolder) {
     urlArray.pop();
