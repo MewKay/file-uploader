@@ -13,11 +13,15 @@ router.use(enforceTrailingSlash);
 router.get("/{*folderPathParams}", controller.filesGet);
 
 router.post("/new-folder/", controller.createRootChildrenFolder);
+router.post("/share-folder/", controller.shareRootFolder);
+
+router.post("/upload-file/", controller.uploadFileToRootFolder);
+
 router.post("/{*folderPathParams}/new-folder/", controller.createFolder);
 router.post("/{*folderPathParams}/rename-folder/", controller.renameFolder);
 router.post("/{*folderPathParams}/delete-folder/", controller.deleteFolder);
+router.post("/{*folderPathParams}/share-folder/", controller.shareFolder);
 
-router.post("/upload-file/", controller.uploadFileToRootFolder);
 router.post("/{*folderPathParams}/upload-file/", controller.uploadFile);
 
 module.exports = router;

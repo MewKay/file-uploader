@@ -15,6 +15,8 @@ const {
   formatFileSize,
   folderNameParentFolderUrl,
 } = require("../utils/file.util");
+const { randomUUID } = require("node:crypto");
+const { addDays } = require("date-fns");
 
 const filesGet = asyncHandler(async (req, res) => {
   const { user } = req;
@@ -152,6 +154,54 @@ const deleteFolder = asyncHandler(async (req, res) => {
   res.redirect(parentFolderUrl);
 });
 
+const shareRootFolder = asyncHandler(async (req, res) => {
+  const { user } = req;
+
+  const folderToShare = await prisma.folder.findFirst({
+    where: {
+      owner_id: user.id,
+      is_root: true,
+    },
+  });
+  const folderPublicId = randomUUID();
+  const daysSharingAvailability = 3;
+
+  await prisma.publicFolder.create({
+    data: {
+      id: folderPublicId,
+      folder_id: folderToShare.id,
+      owner_id: user.id,
+      expires_at: addDays(new Date(), daysSharingAvailability),
+      is_active: true,
+    },
+  });
+
+  res.redirect("/files/");
+});
+
+const shareFolder = asyncHandler(async (req, res) => {
+  const { user } = req;
+  const { folderPathParams } = req.params;
+
+  const folderToShare = await queryFolderFromPath(user.id, folderPathParams);
+  const folderPublicId = randomUUID();
+  const daysSharingAvailability = 3;
+
+  await prisma.publicFolder.create({
+    data: {
+      id: folderPublicId,
+      folder_id: folderToShare.id,
+      owner_id: user.id,
+      expires_at: addDays(new Date(), daysSharingAvailability),
+      is_active: true,
+    },
+  });
+
+  const sharedFolderUrl = folderNameParentFolderUrl(req.originalUrl);
+
+  res.redirect(sharedFolderUrl);
+});
+
 const uploadFileToRootFolder = [
   upload.single("uploaded_file"),
   asyncHandler(async (req, res) => {
@@ -224,4 +274,6 @@ module.exports = {
   uploadFileToRootFolder,
   uploadFile,
   downloadFile,
+  shareRootFolder,
+  shareFolder,
 };
