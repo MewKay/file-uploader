@@ -31,30 +31,44 @@ model File {
 }
 
 model Folder {
-  id         Int      @id @default(autoincrement())
+  id         Int           @id @default(autoincrement())
   name       String
   path       String
-  is_root    Boolean  @default(false)
-  updated_at DateTime @default(now())
+  is_root    Boolean       @default(false)
+  updated_at DateTime      @default(now())
   owner_id   Int
-  owner      User     @relation(fields: [owner_id], references: [id], onDelete: Cascade)
+  owner      User          @relation(fields: [owner_id], references: [id], onDelete: Cascade)
   parent_id  Int?
-  parent     Folder?  @relation("FolderHierarchy", fields: [parent_id], references: [id], onDelete: Cascade)
-  children   Folder[] @relation("FolderHierarchy")
+  parent     Folder?       @relation("FolderHierarchy", fields: [parent_id], references: [id], onDelete: Cascade)
+  children   Folder[]      @relation("FolderHierarchy")
   files      File[]
+  public     PublicFolder?
 
   @@unique([name, parent_id])
   @@map("folders")
 }
 
 model User {
-  id       Int      @id @default(autoincrement())
-  username String   @unique
-  password String
-  File     File[]
-  Folder   Folder[]
+  id           Int           @id @default(autoincrement())
+  username     String        @unique
+  password     String
+  files        File[]
+  folders      Folder[]
+  publicFolder PublicFolder?
 
   @@map("users")
+}
+
+model PublicFolder {
+  id         String   @id
+  folder_id  Int      @unique
+  folder     Folder   @relation(fields: [folder_id], references: [id], onDelete: Cascade)
+  owner_id   Int      @unique
+  owner      User     @relation(fields: [owner_id], references: [id], onDelete: Cascade)
+  expires_at DateTime
+  is_active  Boolean
+
+  @@map("public_folders")
 }
 
 model Session {
