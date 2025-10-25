@@ -173,10 +173,16 @@ const updateAncestorsDateNow =
     await updateFoldersDateAndItsAncestorsToNow(folder.parent_id);
   };
 
+const getFullUrl = (originalUrl) => {
+  const baseUrl = process.env.BASE_URL || "http://localhost:3000";
+  return `${baseUrl}${originalUrl}`;
+};
+
 module.exports = {
   paramsArrayPathToIdPath,
   queryFolderFromPath,
   queryFileFromPath,
   idPathToUrl,
   updateAncestorsDateNow,
+  getFullUrl,
 };

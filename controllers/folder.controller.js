@@ -4,6 +4,7 @@ const {
   queryFolderFromPath,
   queryFileFromPath,
   updateAncestorsDateNow,
+  getFullUrl,
 } = require("../utils/controller.util");
 const asyncHandler = require("express-async-handler");
 
@@ -33,6 +34,9 @@ const filesGet = asyncHandler(async (req, res) => {
       owner_id: user.id,
       is_active: true,
     },
+    include: {
+      folder: true,
+    },
   });
 
   const currentFolderList = await prisma.folder.findMany({
@@ -59,7 +63,10 @@ const filesGet = asyncHandler(async (req, res) => {
       formatFileSize,
     },
     folderPath: folderPathParams?.join("/"),
-    sharedFolderStatus,
+    sharedFolderStatus: {
+      ...sharedFolderStatus,
+      fullUrl: getFullUrl(`/share/${sharedFolderStatus.id}`),
+    },
     currentFolder,
     currentFolderList,
     currentFilesList,

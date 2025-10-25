@@ -130,3 +130,8 @@ button:hover {
 button:active {
   box-shadow: none;
 }
+
+.hidden {
+  display: none;
+  visibility: hidden;
+}

@@ -1,29 +1,32 @@
 .heading {
+  max-width: var(--max-width);
+  width: 100%;
+  padding: 0 var(--spacing-4);
+  margin-bottom: var(--spacing-4);
+}
+
+.folder-action-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: var(--max-width);
-  padding: 0 var(--spacing-4);
-  margin-bottom: var(--spacing-4);
-  width: 100%;
 }
 
 .heading h3 {
   font-size: var(--font-size-5);
 }
 
-.heading > .button-container {
+.folder-action-container > .button-container {
   flex-basis: var(--spacing-11);
   display: flex;
   flex-direction: column;
   gap: var(--spacing-4);
 }
 
-.heading > .button-container .padding {
+.folder-action-container > .button-container .padding {
   display: none;
 }
 
-.heading > .button-container button {
+.folder-action-container > .button-container button {
   border: none;
   border-radius: var(--radius-small);
   background-color: var(--grey-700);
@@ -35,8 +38,56 @@
   min-width: var(--spacing-11);
 }
 
+.share-folder-container {
+  margin-top: var(--spacing-5);
+}
+
+.public-folder-label {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-5);
+  color: var(--grey-100);
+  margin-bottom: var(--spacing-2);
+  text-decoration: none;
+}
+
+.public-folder-label svg {
+  height: var(--spacing-4);
+  width: var(--spacing-4);
+}
+
+.share-link-container {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+  border: solid 1px var(--grey-800);
+  padding: var(--spacing-1) var(--spacing-3);
+  width: fit-content;
+  font-size: var(--font-size-2);
+}
+
+.copy-button {
+  visibility: hidden;
+  padding: var(--spacing-1) var(--spacing-1);
+  background-color: var(--grey-800);
+  color: var(--grey-100);
+  border: none;
+  border-radius: 2px;
+}
+
+.share-folder-container:hover .copy-button {
+  visibility: visible;
+}
+
+.copy-button svg {
+  height: var(--spacing-4);
+  width: var(--spacing-4);
+}
+
 @media (min-width: 760px) {
-  .heading > .button-container .padding {
+  .folder-action-container > .button-container .padding {
     grid-area: padding;
   }
 
@@ -52,7 +103,7 @@
     grid-area: share-folder;
   }
 
-  .heading > .button-container {
+  .folder-action-container > .button-container {
     display: grid;
     grid:
       "padding new-folder" 1fr

@@ -69,10 +69,6 @@
   gap: var(--spacing-3);
 }
 
-.hidden {
-  visibility: hidden;
-}
-
 .files-header:nth-of-type(2),
 .item-size {
   display: none;
