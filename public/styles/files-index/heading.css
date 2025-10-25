@@ -13,15 +13,17 @@
 }
 
 .heading > .button-container {
+  flex-basis: var(--spacing-11);
   display: flex;
-  align-self: flex-end;
   flex-direction: column;
   gap: var(--spacing-4);
-  min-width: var(--spacing-11);
 }
 
-.new-folder-button,
-.open-upload-modal-button {
+.heading > .button-container .padding {
+  display: none;
+}
+
+.heading > .button-container button {
   border: none;
   border-radius: var(--radius-small);
   background-color: var(--grey-700);
@@ -30,4 +32,32 @@
   font-weight: var(--font-weight-bold);
   padding: var(--spacing-3) var(--spacing-4);
   box-shadow: var(--raise-grey-large), var(--raise-large-shadow);
+  min-width: var(--spacing-11);
+}
+
+@media (min-width: 760px) {
+  .heading > .button-container .padding {
+    grid-area: padding;
+  }
+
+  .new-folder-button {
+    grid-area: new-folder;
+  }
+
+  .open-upload-modal-button {
+    grid-area: open-upload;
+  }
+
+  .share-folder-form {
+    grid-area: share-folder;
+  }
+
+  .heading > .button-container {
+    display: grid;
+    grid:
+      "padding new-folder" 1fr
+      "open-upload share-folder" 1fr /
+      1fr 1fr;
+    gap: var(--spacing-4);
+  }
 }
