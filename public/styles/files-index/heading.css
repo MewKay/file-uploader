@@ -30,7 +30,7 @@
   color: var(--grey-100);
   font-size: var(--font-size-4);
   font-weight: var(--font-weight-bold);
-  padding: var(--spacing-3) var(--spacing-4);
+  padding: var(--spacing-3) 0;
   box-shadow: var(--raise-grey-large), var(--raise-large-shadow);
   min-width: var(--spacing-11);
 }
@@ -48,7 +48,7 @@
     grid-area: open-upload;
   }
 
-  .share-folder-form {
+  .share-folder {
     grid-area: share-folder;
   }
 

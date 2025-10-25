@@ -28,6 +28,13 @@ const filesGet = asyncHandler(async (req, res) => {
     return res.status(404).render("not-found-index");
   }
 
+  const sharedFolderStatus = await prisma.publicFolder.findUnique({
+    where: {
+      owner_id: user.id,
+      is_active: true,
+    },
+  });
+
   const currentFolderList = await prisma.folder.findMany({
     where: {
       parent_id: currentFolder.id,
@@ -52,6 +59,7 @@ const filesGet = asyncHandler(async (req, res) => {
       formatFileSize,
     },
     folderPath: folderPathParams?.join("/"),
+    sharedFolderStatus,
     currentFolder,
     currentFolderList,
     currentFilesList,

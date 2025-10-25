@@ -1,0 +1,7 @@
+<% if (!locals.sharedFolderStatus || !sharedFolderStatus.is_active) { %>
+<form class="share-folder form" action="./share-folder/" method="post">
+  <button class="share-folder-submit">Share Folder</button>
+</form>
+<% } else { %>
+<button class="share-folder toggle-link">Show Shared Folder</button>
+<% } %>

@@ -4,14 +4,12 @@
   <div class="button-container">
     <div class="padding"></div>
     <button class="new-folder-button">Create a new folder</button>
-    <form class="share-folder-form" action="./share-folder/" method="post">
-      <button class="share-folder-button">Share Folder</button>
-    </form>
+    <%- include("./share-folder.ejs", { sharedFolderStatus }) %>
     <button class="open-upload-modal-button">Upload a file</button>
   </div>
 
-  <%- include("./modals/file-upload-modal.ejs") %>
-  <%- include("./modals/folder-name-modal.ejs", { 
+  <%- include("../modals/file-upload-modal.ejs") %>
+  <%- include("../modals/folder-name-modal.ejs", { 
               formAction: "./new-folder/", 
               buttonName: "Create", 
               className: "new-folder-modal" 

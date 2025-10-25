@@ -16,7 +16,7 @@
       <%- include("partials/components/alert.ejs", { errorMessages: messages.folderNameErrors }) %>
       <% } %>
 
-      <%- include("partials/components/index-heading.ejs", { currentFolder }) %>
+      <%- include("partials/components/index-heading/index-heading.ejs", { sharedFolderStatus, currentFolder }) %>
       <%- include("partials/components/files-list/files-list.ejs", 
         { currentFolder, currentFolderList, currentFilesList, folderPath }) %>
     </main>
