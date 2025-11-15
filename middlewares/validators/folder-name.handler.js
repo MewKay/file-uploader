@@ -1,5 +1,5 @@
 const { validationResult } = require("express-validator");
-const { folderNameParentFolderUrl } = require("../../utils/file.util");
+const { sliceUrlEndPath } = require("../../utils/file.util");
 
 const folderNameValidationHandler = (req, res, next) => {
   const errors = validationResult(req);
@@ -16,7 +16,7 @@ const folderNameValidationHandler = (req, res, next) => {
 
   req.flash("folderNameErrors", errorsArray);
 
-  const parentFolderUrl = folderNameParentFolderUrl(req.originalUrl);
+  const parentFolderUrl = sliceUrlEndPath(req.originalUrl);
   return res.redirect(parentFolderUrl);
 };
 

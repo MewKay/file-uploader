@@ -37,23 +37,17 @@ const formatFileSize = function formatIntToFilesizeWithUnit(size) {
   return formattedSize;
 };
 
-const folderNameParentFolderUrl = (originalUrl) => {
-  const urlArray = originalUrl.split("/").slice(0, -1);
+const sliceUrlEndPath = (originalUrl, step = 1) => {
+  const hasUrlTrailingSlash = originalUrl.endsWith("/");
+  const urlArray = hasUrlTrailingSlash
+    ? originalUrl.split("/").slice(0, -1)
+    : originalUrl.split("/");
 
-  const routePath = urlArray.pop();
-  const isRouteNewFolder = routePath.match(/new/);
-  const isRouteRenameFolder = routePath.match(/rename/);
-  const isRouteShareFolder = routePath.match(/share/);
-  const isRouteUploadFile = routePath.match(/upload/);
-
-  if (isRouteNewFolder || isRouteShareFolder || isRouteUploadFile) {
-    return urlArray.join("/") + "/";
-  } else if (isRouteRenameFolder) {
+  for (let index = 0; index < step; index++) {
     urlArray.pop();
-    return urlArray.join("/") + "/";
-  } else {
-    throw new Error("Original url invalid : No proper path");
   }
+
+  return hasUrlTrailingSlash ? urlArray.join("/") + "/" : urlArray.join("/");
 };
 
-module.exports = { formatFileSize, folderNameParentFolderUrl };
+module.exports = { formatFileSize, sliceUrlEndPath };

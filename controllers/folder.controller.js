@@ -12,10 +12,7 @@ const folderNameValidator = require("../middlewares/validators/folder-name.valid
 const folderNameValidationHandler = require("../middlewares/validators/folder-name.handler");
 const upload = require("../config/multer");
 const fileConstraints = require("../constants/file-constraints");
-const {
-  formatFileSize,
-  folderNameParentFolderUrl,
-} = require("../utils/file.util");
+const { formatFileSize, sliceUrlEndPath } = require("../utils/file.util");
 const { randomUUID } = require("node:crypto");
 const { addDays } = require("date-fns");
 const NotFoundError = require("../errors/not-found.error");
@@ -120,7 +117,7 @@ const createFolder = [
       },
     });
 
-    const parentFolderUrl = folderNameParentFolderUrl(req.originalUrl);
+    const parentFolderUrl = sliceUrlEndPath(req.originalUrl);
 
     res.redirect(parentFolderUrl);
   }),
@@ -147,7 +144,7 @@ const renameFolder = [
 
     await updateAncestorsDateNow(folder.id);
 
-    const parentFolderUrl = folderNameParentFolderUrl(req.originalUrl);
+    const parentFolderUrl = sliceUrlEndPath(req.originalUrl, 2);
 
     res.redirect(parentFolderUrl);
   }),
@@ -165,7 +162,7 @@ const deleteFolder = asyncHandler(async (req, res) => {
     },
   });
 
-  const parentFolderUrl = folderNameParentFolderUrl(req.originalUrl);
+  const parentFolderUrl = sliceUrlEndPath(req.originalUrl, 2);
 
   res.redirect(parentFolderUrl);
 });
@@ -213,7 +210,7 @@ const shareFolder = asyncHandler(async (req, res) => {
     },
   });
 
-  const sharedFolderUrl = folderNameParentFolderUrl(req.originalUrl);
+  const sharedFolderUrl = sliceUrlEndPath(req.originalUrl);
 
   res.redirect(sharedFolderUrl);
 });
@@ -234,7 +231,9 @@ const stopShareFolder = asyncHandler(async (req, res) => {
     },
   });
 
-  res.redirect("../");
+  const previousFolderUrl = sliceUrlEndPath(req.originalUrl);
+
+  res.redirect(previousFolderUrl);
 });
 
 const uploadFileToRootFolder = [
@@ -283,7 +282,7 @@ const uploadFile = [
       },
     });
 
-    const parentFolderUrl = folderNameParentFolderUrl(req.originalUrl);
+    const parentFolderUrl = sliceUrlEndPath(req.originalUrl);
 
     res.redirect(parentFolderUrl);
   }),
