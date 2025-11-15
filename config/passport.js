@@ -41,6 +41,14 @@ passport.deserializeUser(async (userId, done) => {
       where: {
         id: userId,
       },
+      include: {
+        publicFolder: {
+          select: {
+            id: true,
+            is_active: true,
+          },
+        },
+      },
     });
 
     done(null, user);

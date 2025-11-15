@@ -18,6 +18,7 @@ const {
 } = require("../utils/file.util");
 const { randomUUID } = require("node:crypto");
 const { addDays } = require("date-fns");
+const NotFoundError = require("../errors/not-found.error");
 
 const filesGet = asyncHandler(async (req, res) => {
   const { user } = req;
@@ -65,7 +66,7 @@ const filesGet = asyncHandler(async (req, res) => {
     folderPath: folderPathParams?.join("/"),
     sharedFolderStatus: {
       ...sharedFolderStatus,
-      fullUrl: getFullUrl(`/share/${sharedFolderStatus.id}`),
+      fullUrl: getFullUrl(`/share/${sharedFolderStatus?.id}`),
     },
     currentFolder,
     currentFolderList,
@@ -217,6 +218,25 @@ const shareFolder = asyncHandler(async (req, res) => {
   res.redirect(sharedFolderUrl);
 });
 
+const stopShareFolder = asyncHandler(async (req, res) => {
+  const { user } = req;
+
+  if (!user.publicFolder || !user.publicFolder.is_active) {
+    throw new NotFoundError("No public folder found");
+  }
+
+  await prisma.publicFolder.update({
+    where: {
+      id: user.publicFolder.id,
+    },
+    data: {
+      is_active: false,
+    },
+  });
+
+  res.redirect("../");
+});
+
 const uploadFileToRootFolder = [
   upload.single("uploaded_file"),
   asyncHandler(async (req, res) => {
@@ -291,4 +311,5 @@ module.exports = {
   downloadFile,
   shareRootFolder,
   shareFolder,
+  stopShareFolder,
 };
