@@ -69,7 +69,6 @@
 }
 
 .copy-button {
-  visibility: hidden;
   padding: var(--spacing-1) var(--spacing-1);
   background-color: var(--grey-800);
   color: var(--grey-100);
@@ -77,13 +76,43 @@
   border-radius: 2px;
 }
 
-.share-folder-container:hover .copy-button {
-  visibility: visible;
-}
-
 .copy-button svg {
   height: var(--spacing-4);
   width: var(--spacing-4);
+}
+
+.copy-button.success .copy-success-icon,
+.copy-button.failure .copy-failure-icon {
+  display: block;
+  visibility: visible;
+}
+
+.copy-button.idle .copy-success-icon,
+.copy-button.idle .copy-failure-icon {
+  display: none;
+  visibility: hidden;
+}
+
+.copy-button.success .copy-idle-icon,
+.copy-button.success .copy-failure-icon {
+  display: none;
+  visibility: hidden;
+}
+
+.copy-button.failure .copy-idle-icon,
+.copy-button.failure .copy-success-icon {
+  display: none;
+  visibility: hidden;
+}
+
+@media (pointer: fine) {
+  .share-folder-container:hover .copy-button.idle {
+    visibility: visible;
+  }
+
+  .copy-button.idle {
+    visibility: hidden;
+  }
 }
 
 @media (min-width: 760px) {
