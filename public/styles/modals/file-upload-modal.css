@@ -58,12 +58,6 @@
   align-self: flex-end;
 }
 
-.file-upload-modal .button-container button[type="submit"]:disabled {
-  box-shadow: none;
-  opacity: 0.7;
-  cursor: auto;
-}
-
 .file-info.invalid {
   color: var(--accent-3-500);
 }

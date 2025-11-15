@@ -131,6 +131,12 @@ button:active {
   box-shadow: none;
 }
 
+button:disabled {
+  box-shadow: none;
+  opacity: 0.7;
+  cursor: auto;
+}
+
 .hidden {
   display: none;
   visibility: hidden;
