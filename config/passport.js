@@ -45,7 +45,6 @@ passport.deserializeUser(async (userId, done) => {
         publicFolder: {
           select: {
             id: true,
-            is_active: true,
           },
         },
       },

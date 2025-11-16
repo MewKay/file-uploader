@@ -30,7 +30,6 @@ const filesGet = asyncHandler(async (req, res) => {
   const sharedFolderStatus = await prisma.publicFolder.findUnique({
     where: {
       owner_id: user.id,
-      is_active: true,
     },
     include: {
       folder: true,
@@ -61,10 +60,8 @@ const filesGet = asyncHandler(async (req, res) => {
       formatFileSize,
     },
     folderPath: folderPathParams?.join("/"),
-    sharedFolderStatus: {
-      ...sharedFolderStatus,
-      fullUrl: getFullUrl(`/share/${sharedFolderStatus?.id}`),
-    },
+    sharedFolderStatus,
+    sharedFolderFullUrl: getFullUrl(`/share/${sharedFolderStatus?.id}`),
     currentFolder,
     currentFolderList,
     currentFilesList,
@@ -185,7 +182,6 @@ const shareRootFolder = asyncHandler(async (req, res) => {
       folder_id: folderToShare.id,
       owner_id: user.id,
       expires_at: addDays(new Date(), daysSharingAvailability),
-      is_active: true,
     },
   });
 
@@ -206,7 +202,6 @@ const shareFolder = asyncHandler(async (req, res) => {
       folder_id: folderToShare.id,
       owner_id: user.id,
       expires_at: addDays(new Date(), daysSharingAvailability),
-      is_active: true,
     },
   });
 
@@ -218,16 +213,13 @@ const shareFolder = asyncHandler(async (req, res) => {
 const stopShareFolder = asyncHandler(async (req, res) => {
   const { user } = req;
 
-  if (!user.publicFolder || !user.publicFolder.is_active) {
+  if (!user.publicFolder) {
     throw new NotFoundError("No public folder found");
   }
 
-  await prisma.publicFolder.update({
+  await prisma.publicFolder.delete({
     where: {
       id: user.publicFolder.id,
-    },
-    data: {
-      is_active: false,
     },
   });
 

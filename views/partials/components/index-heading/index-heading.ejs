@@ -10,7 +10,7 @@
     </div>
   </div>
   <div class="share-folder-container hidden">
-    <% if (locals.sharedFolderStatus && sharedFolderStatus.is_active) { %>
+    <% if (locals.sharedFolderStatus) { %>
     <div class="label-container">
       <a
         class="public-folder-label"
@@ -39,7 +39,7 @@
       </form>
     </div>
     <p class="share-link-container">
-      <%= sharedFolderStatus.fullUrl %>
+      <%= sharedFolderFullUrl %>
       <button class="copy-button idle">
         <svg
           xmlns="http://www.w3.org/2000/svg"

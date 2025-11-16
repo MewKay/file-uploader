@@ -66,7 +66,6 @@ model PublicFolder {
   owner_id   Int      @unique
   owner      User     @relation(fields: [owner_id], references: [id], onDelete: Cascade)
   expires_at DateTime
-  is_active  Boolean
 
   @@map("public_folders")
 }
