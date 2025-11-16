@@ -61,7 +61,7 @@ const filesGet = asyncHandler(async (req, res) => {
     },
     folderPath: folderPathParams?.join("/"),
     sharedFolderStatus,
-    sharedFolderFullUrl: getFullUrl(`/share/${sharedFolderStatus?.id}`),
+    sharedFolderFullUrl: getFullUrl(`/share/${sharedFolderStatus?.id}/`),
     currentFolder,
     currentFolderList,
     currentFilesList,
