@@ -1,5 +1,7 @@
 <header>
   <h1 class="brand">MyFileUploader</h1>
+
+  <% if (locals.user) { %>
   <form action="/log-out" method="post">
     <button class="log-out-button">
       <svg
@@ -18,4 +20,5 @@
       </svg>
     </button>
   </form>
+  <% } %>
 </header>
