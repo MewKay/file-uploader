@@ -31,7 +31,6 @@ const shareGet = asyncHandler(async (req, res) => {
   });
 
   res.render("share-index", {
-    isShareRoute: true,
     folderPath: `${publicFolderId}/${folderPathParams?.join("/")}`,
     currentFolder: {
       ...folder,
@@ -53,7 +52,6 @@ const shareFileDetailsGet = asyncHandler(async (req, res, next) => {
   }
 
   res.render("file-details", {
-    isShareRoute: true,
     fileDetails: file,
     filepath: folderPathParams.join("/"),
   });
