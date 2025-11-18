@@ -2,6 +2,11 @@ const router = require("express").Router();
 const controller = require("../controllers/share.controller");
 const enforceTrailingSlash = require("../middlewares/enforceTrailingSlash");
 
+router.get(
+  "/:publicFolderId/{*folderPathParams}",
+  controller.shareFileDetailsGet,
+);
+
 router.use(enforceTrailingSlash);
 router.get("/:publicFolderId/{*folderPathParams}", controller.shareGet);
 

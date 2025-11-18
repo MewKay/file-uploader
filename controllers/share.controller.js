@@ -1,5 +1,5 @@
 const asyncHandler = require("express-async-handler");
-const { querySharedFolder } = require("../utils/share.util");
+const { queryFileFromPath, querySharedFolder } = require("../utils/share.util");
 const NotFoundError = require("../errors/not-found.error");
 const prisma = require("../config/prisma-client");
 
@@ -42,4 +42,21 @@ const shareGet = asyncHandler(async (req, res) => {
   });
 });
 
-module.exports = { shareGet };
+const shareFileDetailsGet = asyncHandler(async (req, res, next) => {
+  const { publicFolderId, folderPathParams } = req.params;
+  const filePathParams = structuredClone(folderPathParams);
+
+  const file = await queryFileFromPath(publicFolderId, filePathParams);
+
+  if (!file) {
+    return next();
+  }
+
+  res.render("file-details", {
+    isShareRoute: true,
+    fileDetails: file,
+    filepath: folderPathParams.join("/"),
+  });
+});
+
+module.exports = { shareGet, shareFileDetailsGet };

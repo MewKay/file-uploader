@@ -67,4 +67,28 @@ const querySharedFolder = async (publicFolderId, folderPathParams) => {
   return lastPathFolder;
 };
 
-module.exports = { querySharedFolder };
+const queryFileFromPath = async (publicFolderId, filePathParams) => {
+  const fileName = filePathParams?.pop();
+  const isPathForFiles = !fileName ? false : true;
+
+  if (!isPathForFiles) {
+    return null;
+  }
+
+  const parentFolder = await querySharedFolder(publicFolderId, filePathParams);
+
+  if (!parentFolder) {
+    return null;
+  }
+
+  const file = await prisma.file.findFirst({
+    where: {
+      parent_id: parentFolder.id,
+      name: fileName,
+    },
+  });
+
+  return file;
+};
+
+module.exports = { querySharedFolder, queryFileFromPath };

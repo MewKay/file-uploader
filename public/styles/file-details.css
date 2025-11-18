@@ -17,6 +17,10 @@
   font-size: var(--font-size-6);
 }
 
+.file-size {
+  text-wrap: nowrap;
+}
+
 .file-details-container {
   background-color: var(--grey-800);
   box-shadow: var(--shadow-2);
