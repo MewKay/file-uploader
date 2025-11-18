@@ -18,7 +18,13 @@
         </p>
         <div class="action-container">
           <a href="./">Back to parent directory</a>
-          <a href="/files/download?filepath=<%= filepath %>"> Download File </a>
+          <a 
+            <% if (!isShareRoute) { %>
+              href="/files/download?filepath=<%= filepath %>"
+            <% } else { %>
+              href="/share/<%= publicFolderId %>/download?filepath=<%= filepath %>"
+            <% } %>
+          > Download File </a>
         </div>
       </div>
     </main>

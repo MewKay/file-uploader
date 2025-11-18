@@ -8,6 +8,7 @@ router.get(
   "/:publicFolderId/{*folderPathParams}",
   controller.shareFileDetailsGet,
 );
+router.get("/:publicFolderId/download", controller.downloadSharedFile);
 
 router.use(enforceTrailingSlash);
 router.get("/:publicFolderId/{*folderPathParams}", controller.shareGet);
