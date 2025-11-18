@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("partials/head.ejs", { title: currentFolder.is_root ? `${currentFolder.owner.username}'s files` : currentFolder.name }) %>
+    <link rel="stylesheet" href="/styles/header.css" />
+    <link rel="stylesheet" href="/styles/files-index/heading.css" />
+    <link rel="stylesheet" href="/styles/files-index/share-heading.css" />
+    <link rel="stylesheet" href="/styles/files-index/files-container.css" />
+  </head>
+  <body>
+    <%- include("partials/header.ejs") %>
+    <main>
+      <%- include("partials/components/share-heading.ejs", { currentFolder }) %>
+      <%- include("partials/components/files-list/files-list.ejs", 
+        { currentFolder, currentFolderList, currentFilesList, folderPath }) %>
+    </main>
+  </body>
+</html>

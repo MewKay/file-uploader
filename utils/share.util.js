@@ -7,6 +7,18 @@ const querySharedFolder = async (publicFolderId, folderPathParams) => {
         id: publicFolderId,
       },
     },
+    include: {
+      public: {
+        select: {
+          id: true,
+        },
+      },
+      owner: {
+        select: {
+          username: true,
+        },
+      },
+    },
   });
 
   if (!rootSharedFolder) {
@@ -18,17 +30,30 @@ const querySharedFolder = async (publicFolderId, folderPathParams) => {
     return rootSharedFolder;
   }
 
-  const idPaths = rootSharedFolder.path
-    .split("/")
-    .filter((folderParam) => folderParam !== "");
+  const idPaths = rootSharedFolder.path.split("/").filter((id) => id !== "");
   idPaths.push(rootSharedFolder.id);
+  const paramsArray = folderPathParams.filter(
+    (folderParam) => folderParam !== "",
+  );
 
   let lastPathFolder;
-  for (let folderName of folderPathParams) {
+  for (let folderName of paramsArray) {
     lastPathFolder = await prisma.folder.findFirst({
       where: {
         parent_id: idPaths.at(-1),
         name: folderName,
+      },
+      include: {
+        public: {
+          select: {
+            id: true,
+          },
+        },
+        owner: {
+          select: {
+            username: true,
+          },
+        },
       },
     });
 

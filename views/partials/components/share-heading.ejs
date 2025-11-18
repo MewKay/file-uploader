@@ -1,0 +1,10 @@
+<div class="heading">
+  <% if (currentFolder.is_root) { %>
+  <h3><%= currentFolder.owner.username %>'s files</h3>
+  <% } else { %>
+  <h3>
+    <%= currentFolder.name %>
+  </h3>
+  <p>Owner: @<%=currentFolder.owner.username %></p>
+  <% } %>
+</div>

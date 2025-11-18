@@ -26,6 +26,9 @@
   <span class="time"><%= folderDate.time %></span>
 </p>
 
+<% if (locals.isShareRoute) { %>
+<div class="files-row"></div>
+<% } else { %>
 <div class="files-row folder-action">
   <button
     class="toggle-action action-button"
@@ -98,4 +101,5 @@
     </form>
   </span>
 </div>
+<% } %>
 <% }) %>

@@ -1,7 +1,7 @@
 <header>
   <h1 class="brand">MyFileUploader</h1>
 
-  <% if (locals.user) { %>
+  <% if (!locals.isShareRoute) { %>
   <form action="/log-out" method="post">
     <button class="log-out-button">
       <svg

@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const { querySharedFolder } = require("../utils/share.util");
 const NotFoundError = require("../errors/not-found.error");
+const prisma = require("../config/prisma-client");
 
 const shareGet = asyncHandler(async (req, res) => {
   const { publicFolderId, folderPathParams } = req.params;
@@ -11,7 +12,34 @@ const shareGet = asyncHandler(async (req, res) => {
     throw new NotFoundError("No such shared folder");
   }
 
-  res.send(folder);
+  const currentFolderList = await prisma.folder.findMany({
+    where: {
+      parent_id: folder.id,
+    },
+    orderBy: {
+      name: "asc",
+    },
+  });
+
+  const currentFilesList = await prisma.file.findMany({
+    where: {
+      parent_id: folder.id,
+    },
+    orderBy: {
+      name: "asc",
+    },
+  });
+
+  res.render("share-index", {
+    isShareRoute: true,
+    folderPath: `${publicFolderId}/${folderPathParams?.join("/")}`,
+    currentFolder: {
+      ...folder,
+      is_public_root: folder.public && folder.public.id === publicFolderId,
+    },
+    currentFolderList,
+    currentFilesList,
+  });
 });
 
 module.exports = { shareGet };
