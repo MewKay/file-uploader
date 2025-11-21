@@ -25,7 +25,7 @@
 <div class="files-row folder-action">
   <a
     class="action-button"
-    <% if (!isShareRoute) { %>
+    <% if (!locals.isShareRoute) { %>
     href="/files/download?filepath=<%= folderPath %><%= file.name %>"
     <% } else { %>
     href="/share/<%= publicFolderId %>/download?filepath=<%= folderPath %><%= file.name %>"

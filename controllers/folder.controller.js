@@ -69,7 +69,7 @@ const filesGet = asyncHandler(async (req, res) => {
 });
 
 const createRootChildrenFolder = [
-  folderNameValidator,
+  folderNameValidator("create"),
   folderNameValidationHandler,
   asyncHandler(async (req, res) => {
     const { user } = req;
@@ -96,7 +96,7 @@ const createRootChildrenFolder = [
 ];
 
 const createFolder = [
-  folderNameValidator,
+  folderNameValidator("create"),
   folderNameValidationHandler,
   asyncHandler(async (req, res) => {
     const { user } = req;
@@ -121,7 +121,7 @@ const createFolder = [
 ];
 
 const renameFolder = [
-  folderNameValidator,
+  folderNameValidator("update"),
   folderNameValidationHandler,
   asyncHandler(async (req, res) => {
     const { user } = req;
