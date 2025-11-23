@@ -1,30 +1,29 @@
-const { body } = require("express-validator");
+const { ExpressValidator } = require("express-validator");
 const { folderNameInvalids, ranges } = require("../../constants/validation");
 const { queryFolderFromPath } = require("../../utils/controller.util");
 const ValidationError = require("../../errors/validation.error");
 
-const isNameValid = (value) => {
-  for (let character of folderNameInvalids.characters) {
-    if (value.includes(character)) {
-      throw new ValidationError(
-        `Folder name must not contain the "${character}" character.`,
-      );
+const { body } = new ExpressValidator({
+  isNameValid: (value) => {
+    for (let character of folderNameInvalids.characters) {
+      if (value.includes(character)) {
+        throw new ValidationError(
+          `Folder name must not contain the "${character}" character.`,
+        );
+      }
     }
-  }
 
-  for (let string of folderNameInvalids.string) {
-    if (value === string) {
-      throw new ValidationError(`Folder name must not be "${string}"`);
+    for (let string of folderNameInvalids.string) {
+      if (value === string) {
+        throw new ValidationError(`Folder name must not be "${string}"`);
+      }
     }
-  }
 
-  return true;
-};
-
-const isNameTaken =
-  (operation = "create") =>
-  async (value, { req }) => {
-    const { user } = req;
+    return true;
+  },
+  isNameTaken: async (value, { req }) => {
+    const { user, context } = req;
+    const operation = context.operation || "create";
     const folderPathParams = structuredClone(req.params.folderPathParams) || [];
     folderPathParams.push(value);
 
@@ -35,7 +34,6 @@ const isNameTaken =
 
     const folder = await queryFolderFromPath(user.id, folderPathParams);
 
-    console.log(folderPathParams);
     if (folder) {
       throw new ValidationError(
         `Folder with name "${folder.name}" already exists.`,
@@ -43,17 +41,17 @@ const isNameTaken =
     }
 
     return true;
-  };
+  },
+});
 
-const folderNameValidator = (operation) =>
-  body("folderName")
-    .trim()
-    .isLength(ranges.folderName)
-    .withMessage(
-      `Folder name must be between ${ranges.folderName.min} and ${ranges.folderName.max} characters.`,
-    )
-    .custom(isNameValid)
-    .bail()
-    .custom(isNameTaken(operation));
+const folderNameValidator = body("folderName")
+  .trim()
+  .isLength(ranges.folderName)
+  .withMessage(
+    `Folder name must be between ${ranges.folderName.min} and ${ranges.folderName.max} characters.`,
+  )
+  .isNameValid()
+  .bail()
+  .isNameTaken();
 
 module.exports = folderNameValidator;

@@ -1,15 +1,21 @@
-const addRequestContext =
-  (...requestContexts) =>
-  (req, res, next) => {
-    req.context = {};
-    let contextLength = req.context.length;
+const addRequestContext = (requestContexts) => (req, res, next) => {
+  req.context = {};
 
-    for (let requestContext of requestContexts) {
-      req.context[contextLength] = requestContext;
-      contextLength++;
-    }
+  if (
+    !requestContexts ||
+    typeof requestContexts !== "object" ||
+    Array.isArray(requestContexts)
+  ) {
+    throw new Error("Invalid request context : Not an object");
+  }
 
-    next();
-  };
+  const contexts = Object.keys(requestContexts);
+
+  for (let context of contexts) {
+    req.context[context] = requestContexts[context];
+  }
+
+  next();
+};
 
 module.exports = addRequestContext;

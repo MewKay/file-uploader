@@ -16,6 +16,7 @@ const { formatFileSize, sliceUrlEndPath } = require("../utils/file.util");
 const { randomUUID } = require("node:crypto");
 const { addDays } = require("date-fns");
 const NotFoundError = require("../errors/not-found.error");
+const addRequestContext = require("../middlewares/addRequestContext");
 
 const filesGet = asyncHandler(async (req, res) => {
   const { user } = req;
@@ -69,7 +70,8 @@ const filesGet = asyncHandler(async (req, res) => {
 });
 
 const createRootChildrenFolder = [
-  folderNameValidator("create"),
+  addRequestContext({ operation: "create" }),
+  folderNameValidator,
   folderNameValidationHandler,
   asyncHandler(async (req, res) => {
     const { user } = req;
@@ -96,7 +98,8 @@ const createRootChildrenFolder = [
 ];
 
 const createFolder = [
-  folderNameValidator("create"),
+  addRequestContext({ operation: "create" }),
+  folderNameValidator,
   folderNameValidationHandler,
   asyncHandler(async (req, res) => {
     const { user } = req;
@@ -121,7 +124,8 @@ const createFolder = [
 ];
 
 const renameFolder = [
-  folderNameValidator("update"),
+  addRequestContext({ operation: "update" }),
+  folderNameValidator,
   folderNameValidationHandler,
   asyncHandler(async (req, res) => {
     const { user } = req;

@@ -66,7 +66,6 @@ const downloadSharedFile = asyncHandler(async (req, res) => {
   const filePathParams = filepath.split("/");
 
   const file = await queryFileFromPath(publicFolderId, filePathParams);
-  console.log(publicFolderId, filepath, filePathParams);
   const fileLocation = path.join(__dirname, "..", "public", file.download_link);
 
   res.download(fileLocation, file.name);
