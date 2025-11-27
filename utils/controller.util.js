@@ -1,79 +1,44 @@
 const prisma = require("../config/prisma-client");
 
-const paramsArrayPathToIdPath =
-  async function queryCurrentFolderIdPathFromFolderParamsArray(
-    userId,
-    paramsArray,
-  ) {
-    let idPath;
-    const rootPath = "/";
-    const isCurrentFolderRoot = paramsArray[0] === rootPath;
-
-    if (isCurrentFolderRoot) {
-      idPath = rootPath;
-      return idPath;
-    }
-
-    const idPathArray = [];
-    const folderRoot = await prisma.folder.findFirst({
-      where: {
-        owner_id: userId,
-        is_root: true,
-      },
-    });
-    idPathArray.push(folderRoot.id);
-
-    for (let folderName of paramsArray) {
-      const folderParentId = idPathArray.at(-1);
-
-      const folder = await prisma.folder.findFirst({
-        where: {
-          owner_id: userId,
-          parent_id: folderParentId,
-          name: folderName,
-        },
-      });
-
-      if (!folder) {
-        return null;
-      }
-
-      idPathArray.push(folder.id);
-    }
-
-    idPath = idPathArray.join("/").concat("/");
-
-    return idPath;
-  };
-
 const queryFolderFromPath = async function queryOwnersFolderFromPath(
   ownerId,
   folderPathParams,
 ) {
-  let folderName;
-  let paramsArray;
-
-  if (!folderPathParams) {
-    paramsArray = ["/"];
-    folderName = "Your Files";
-  } else {
-    paramsArray = folderPathParams.filter((folderParam) => folderParam !== "");
-    folderName = paramsArray.pop();
-  }
-
-  const idPath = await paramsArrayPathToIdPath(ownerId, paramsArray);
-
-  if (!idPath) {
-    return null;
-  }
-
-  const folder = await prisma.folder.findFirst({
+  const folderRoot = await prisma.folder.findFirst({
     where: {
-      path: idPath,
-      name: folderName,
       owner_id: ownerId,
+      is_root: true,
     },
   });
+
+  if (!folderPathParams || folderPathParams.length <= 0) {
+    return folderRoot;
+  }
+
+  const idPathArray = [];
+  idPathArray.push(folderRoot.id);
+
+  let folder;
+  const paramsArray = folderPathParams.filter(
+    (folderParam) => folderParam !== "",
+  );
+  for (let folderName of paramsArray) {
+    const folderParentId = idPathArray.at(-1);
+
+    folder = await prisma.folder.findFirst({
+      where: {
+        owner_id: ownerId,
+        parent_id: folderParentId,
+        name: folderName,
+      },
+    });
+
+    if (!folder) {
+      return null;
+    }
+
+    idPathArray.push(folder.id);
+  }
 
   return folder;
 };
@@ -179,7 +144,6 @@ const getFullUrl = (originalUrl) => {
 };
 
 module.exports = {
-  paramsArrayPathToIdPath,
   queryFolderFromPath,
   queryFileFromPath,
   idPathToUrl,
