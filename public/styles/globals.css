@@ -47,6 +47,16 @@
   --grey-800: hsl(206, 42%, 10%);
   --grey-900: hsl(210, 54%, 3%);
 
+  --primary-100: hsl(149, 99%, 90%);
+  --primary-200: hsl(152, 89%, 76%);
+  --primary-300: hsl(152, 83%, 69%);
+  --primary-400: hsl(158, 84%, 52%);
+  --primary-500: hsl(160, 84%, 39%);
+  --primary-600: hsl(160, 87%, 30%);
+  --primary-700: hsl(163, 89%, 22%);
+  --primary-800: hsl(165, 90%, 12%);
+  --primary-900: hsl(165, 95%, 3%);
+
   --accent-1-100: hsl(73, 93%, 80%);
   --accent-1-200: hsl(76, 80%, 76%);
   --accent-1-300: hsl(80, 96%, 75%);
@@ -97,6 +107,8 @@
   /* Depth */
   --raise-grey-small: inset 0 1px 0 var(--grey-500);
   --raise-grey-large: inset 0 2px 0 var(--grey-500);
+  --raise-primary-small: inset 0 1px 0 var(--primary-300);
+  --raise-primary-large: inset 0 2px 0 var(--primary-300);
   --raise-accent-3-small: inset 0 1px 0 var(--accent-3-400);
   --raise-accent-3-large: inset 0 2px 0 var(--accent-3-400);
   --raise-small-shadow: 0 1px 3px hsla(0, 0%, 0%, 0.2);

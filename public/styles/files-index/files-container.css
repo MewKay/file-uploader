@@ -111,6 +111,12 @@
   width: var(--spacing-5);
 }
 
+.action-button:not(.toggle-action, .delete-folder) {
+  background-color: var(--primary-700);
+  color: var(--primary-100);
+  box-shadow: var(--raise-primary-small), var(--raise-small-shadow);
+}
+
 .delete-folder {
   background-color: var(--accent-3-800);
   box-shadow: var(--raise-accent-3-small);

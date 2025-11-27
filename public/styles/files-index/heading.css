@@ -29,13 +29,19 @@
 .folder-action-container > .button-container button {
   border: none;
   border-radius: var(--radius-small);
-  background-color: var(--grey-700);
-  color: var(--grey-100);
+  background-color: var(--primary-600);
+  color: var(--primary-100);
   font-size: var(--font-size-4);
   font-weight: var(--font-weight-bold);
   padding: var(--spacing-3) 0;
-  box-shadow: var(--raise-grey-large), var(--raise-large-shadow);
+  box-shadow: var(--raise-primary-small), var(--raise-large-shadow);
   min-width: var(--spacing-11);
+}
+
+.folder-action-container > .button-container button.open-upload-modal-button {
+  background-color: var(--primary-100);
+  color: var(--primary-800);
+  box-shadow: var(--raise-large-shadow);
 }
 
 .share-folder-container {
