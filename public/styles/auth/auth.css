@@ -14,6 +14,7 @@ main {
 h3 {
   font-size: var(--font-size-9);
   margin-bottom: var(--spacing-6);
+  color: var(--primary-500);
 }
 
 label {
@@ -43,14 +44,15 @@ button[type="submit"] {
   border: none;
   border-radius: var(--radius-small);
   padding: var(--spacing-3) var(--spacing-8);
-  background-color: var(--grey-700);
-  color: var(--grey-100);
+  background-color: var(--primary-700);
+  color: var(--primary-100);
   font-size: var(--font-size-5);
   font-weight: var(--font-weight-bold);
-  box-shadow: var(--raise-grey-large), var(--raise-large-shadow);
+  box-shadow: var(--raise-primary-large), var(--raise-large-shadow);
   margin-bottom: var(--spacing-5);
 }
 
 .prompt a {
+  color: var(--primary-400);
   text-underline-offset: 2px;
 }
