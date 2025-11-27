@@ -21,3 +21,7 @@ p,
 a {
   font-size: var(--font-size-4);
 }
+
+a {
+  color: var(--primary-600);
+}

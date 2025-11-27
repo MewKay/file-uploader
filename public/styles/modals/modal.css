@@ -25,6 +25,11 @@
   box-shadow: var(--raise-grey-small), var(--raise-small-shadow);
 }
 
+.modal-button[type="submit"] {
+  background-color: var(--primary-600);
+  box-shadow: var(--raise-primary-large), var(--raise-large-shadow);
+}
+
 .close-modal-button {
   position: absolute;
   top: var(--spacing-4);
@@ -42,35 +47,4 @@
   height: var(--spacing-4);
   width: var(--spacing-4);
   color: var(--grey-100);
-}
-
-.folder-modal label {
-  font-size: var(--font-size-4);
-  font-weight: var(--font-weight-bold);
-}
-
-.folder-modal .input-container {
-  display: flex;
-  gap: var(--spacing-3);
-  margin-top: var(--spacing-2);
-}
-
-.folder-modal input {
-  border: none;
-  border-radius: var(--radius-small);
-  background-color: var(--grey-900);
-  color: var(--grey-100);
-  font-weight: var(--font-weight-normal);
-  padding: var(--spacing-1) var(--spacing-2);
-  box-shadow: var(--inset), var(--inset-shadow);
-  min-width: var(--spacing-10);
-}
-
-.folder-modal .input-container button {
-  border: none;
-  border-radius: var(--radius-small);
-  padding: var(--spacing-1) var(--spacing-2);
-  background-color: var(--grey-700);
-  color: var(--grey-100);
-  box-shadow: var(--raise-grey-large), var(--raise-large-shadow);
 }

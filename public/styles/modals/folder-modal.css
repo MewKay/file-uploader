@@ -17,4 +17,11 @@
   font-weight: var(--font-weight-normal);
   padding: var(--spacing-1) var(--spacing-2);
   box-shadow: var(--inset), var(--inset-shadow);
+  min-width: var(--spacing-10);
+}
+
+.folder-modal .input-container button {
+  border: none;
+  border-radius: var(--radius-small);
+  padding: var(--spacing-1) var(--spacing-2);
 }

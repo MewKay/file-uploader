@@ -23,4 +23,5 @@ svg {
 
 .action-prompt {
   font-size: var(--font-size-4);
+  color: var(--primary-600);
 }
