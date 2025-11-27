@@ -37,6 +37,10 @@ const formatFileSize = function formatIntToFilesizeWithUnit(size) {
   return formattedSize;
 };
 
+const formatFilenameToUtf8 = (filename, initialEncoding = "latin1") => {
+  return Buffer.from(filename, initialEncoding).toString("utf8");
+};
+
 const sliceUrlEndPath = (originalUrl, step = 1) => {
   const hasUrlTrailingSlash = originalUrl.endsWith("/");
   const urlArray = hasUrlTrailingSlash
@@ -50,4 +54,4 @@ const sliceUrlEndPath = (originalUrl, step = 1) => {
   return hasUrlTrailingSlash ? urlArray.join("/") + "/" : urlArray.join("/");
 };
 
-module.exports = { formatFileSize, sliceUrlEndPath };
+module.exports = { formatFileSize, formatFilenameToUtf8, sliceUrlEndPath };

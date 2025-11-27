@@ -3,13 +3,15 @@ const {
   fileSizeLimit,
   validMimetypes,
 } = require("../constants/file-constraints");
+const { formatFilenameToUtf8 } = require("../utils/file.util");
 
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
     callback(null, "./public/data/uploads/");
   },
   filename: (req, file, callback) => {
-    const newFilename = file.originalname + "-" + Date.now();
+    const decodedFilename = formatFilenameToUtf8(file.originalname);
+    const newFilename = decodedFilename + "-" + Date.now();
 
     callback(null, newFilename);
   },
@@ -33,6 +35,7 @@ const fileFilter = (req, file, callback) => {
     return callback(new Error(`Mimetype ${file.mimetype} is invalid`));
   }
 
+  file.originalname = formatFilenameToUtf8(file.originalname);
   callback(null, true);
 };
 

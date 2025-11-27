@@ -20,7 +20,6 @@
       <%- include("partials/components/files-list/files-list.ejs", 
         { currentFolder, currentFolderList, currentFilesList, folderPath }) %>
     </main>
-
     <script>
       const imports = {
         fileConstraints: <%- JSON.stringify(fileUtils.fileConstraints) %>,
