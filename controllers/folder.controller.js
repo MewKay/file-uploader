@@ -1,8 +1,6 @@
 const prisma = require("../config/prisma-client");
-const path = require("node:path");
 const {
   queryFolderFromPath,
-  queryFileFromPath,
   updateAncestorsDateNow,
   getFullUrl,
 } = require("../utils/controller.util");
@@ -10,7 +8,6 @@ const asyncHandler = require("express-async-handler");
 
 const folderNameValidator = require("../middlewares/validators/folder-name.validator");
 const folderNameValidationHandler = require("../middlewares/validators/folder-name.handler");
-const upload = require("../config/multer");
 const fileConstraints = require("../constants/file-constraints");
 const { formatFileSize, sliceUrlEndPath } = require("../utils/file.util");
 const { randomUUID } = require("node:crypto");
@@ -18,7 +15,7 @@ const { addDays } = require("date-fns");
 const NotFoundError = require("../errors/not-found.error");
 const addRequestContext = require("../middlewares/addRequestContext");
 
-const filesGet = asyncHandler(async (req, res) => {
+const folderGet = asyncHandler(async (req, res) => {
   const { user } = req;
   const { folderPathParams } = req.params;
 
@@ -232,78 +229,12 @@ const stopShareFolder = asyncHandler(async (req, res) => {
   res.redirect(previousFolderUrl);
 });
 
-const uploadFileToRootFolder = [
-  upload.single("uploaded_file"),
-  asyncHandler(async (req, res) => {
-    const { user, file } = req;
-
-    const rootFolder = await prisma.folder.findFirst({
-      where: {
-        owner_id: user.id,
-        is_root: true,
-      },
-    });
-
-    await prisma.file.create({
-      data: {
-        name: file.originalname,
-        size: file.size,
-        mime_type: file.mimetype,
-        download_link: "/data/uploads/" + file.filename,
-        owner_id: user.id,
-        parent_id: rootFolder.id,
-      },
-    });
-
-    res.redirect("/files/");
-  }),
-];
-
-const uploadFile = [
-  upload.single("uploaded_file"),
-  asyncHandler(async (req, res) => {
-    const { user, file } = req;
-    const { folderPathParams } = req.params;
-
-    const parentFolder = await queryFolderFromPath(user.id, folderPathParams);
-
-    await prisma.file.create({
-      data: {
-        name: file.originalname,
-        size: file.size,
-        mime_type: file.mimetype,
-        download_link: "/data/uploads/" + file.filename,
-        owner_id: user.id,
-        parent_id: parentFolder.id,
-      },
-    });
-
-    const parentFolderUrl = sliceUrlEndPath(req.originalUrl);
-
-    res.redirect(parentFolderUrl);
-  }),
-];
-
-const downloadFile = asyncHandler(async (req, res) => {
-  const { user } = req;
-  const { filepath } = req.query;
-  const filePathParams = filepath.split("/");
-
-  const file = await queryFileFromPath(user.id, filePathParams);
-  const fileLocation = path.join(__dirname, "..", "public", file.download_link);
-
-  res.download(fileLocation, file.name);
-});
-
 module.exports = {
-  filesGet,
+  folderGet,
   createRootChildrenFolder,
   createFolder,
   renameFolder,
   deleteFolder,
-  uploadFileToRootFolder,
-  uploadFile,
-  downloadFile,
   shareRootFolder,
   shareFolder,
   stopShareFolder,

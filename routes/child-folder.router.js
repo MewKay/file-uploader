@@ -6,6 +6,5 @@ router.post("/{*folderPathParams}/rename-folder/", controller.renameFolder);
 router.post("/{*folderPathParams}/delete-folder/", controller.deleteFolder);
 router.post("/{*folderPathParams}/share-folder/", controller.shareFolder);
 router.post("/{*folderPathParams}/stop-sharing/", controller.stopShareFolder);
-router.post("/{*folderPathParams}/upload-file/", controller.uploadFile);
 
 module.exports = router;

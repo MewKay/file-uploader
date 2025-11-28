@@ -2,17 +2,18 @@ const router = require("express").Router();
 
 const rootFolderRouter = require("./root-folder.router");
 const childFolderRouter = require("./child-folder.router");
-const fileRouter = require("./file.router");
 const { isAuth } = require("../middlewares/auth");
 const enforceTrailingSlash = require("../middlewares/enforceTrailingSlash");
-const controller = require("../controllers/folder.controller");
+const controller = require("../controllers/files.controller");
 
 router.use(isAuth);
-router.use("/{*folderPathParams}", fileRouter);
+router.use("/{*folderPathParams}", controller.fileDetailsGet);
 router.get("/download", controller.downloadFile);
 
 router.use(enforceTrailingSlash);
-router.get("/{*folderPathParams}", controller.filesGet);
+
+router.post("/upload-file/", controller.uploadFileToRootFolder);
+router.post("/{*folderPathParams}/upload-file/", controller.uploadFile);
 
 router.use(rootFolderRouter);
 router.use(childFolderRouter);
