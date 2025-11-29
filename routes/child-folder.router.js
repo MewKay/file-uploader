@@ -1,5 +1,5 @@
 const router = require("express").Router({ mergeParams: true });
-const controller = require("../controllers/folder.controller");
+const controller = require("../controllers/child-folder.controller");
 
 router.post("/{*folderPathParams}/new-folder/", controller.createFolder);
 router.post("/{*folderPathParams}/rename-folder/", controller.renameFolder);
