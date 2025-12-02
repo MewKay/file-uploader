@@ -32,6 +32,11 @@ const downloadFile = asyncHandler(async (req, res) => {
   const filePathParams = filepath.split("/");
 
   const file = await queryFileFromPath(user.id, filePathParams);
+
+  if (!file) {
+    return res.status(404).render("not-found-index");
+  }
+
   const fileLocation = path.join(__dirname, "..", "public", file.download_link);
 
   res.download(fileLocation, file.name);
