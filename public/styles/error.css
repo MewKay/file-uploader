@@ -23,5 +23,6 @@ svg {
 
 .action-prompt {
   font-size: var(--font-size-4);
+  text-underline-offset: 2px;
   color: var(--primary-600);
 }
