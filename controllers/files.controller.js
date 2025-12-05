@@ -6,7 +6,10 @@ const {
   queryFileFromPath,
   queryFolderFromPath,
 } = require("../utils/controller.util");
-const { sliceUrlEndPath } = require("../utils/file.util");
+const {
+  sliceUrlEndPath,
+  uploadUserFileToStorage,
+} = require("../utils/file.util");
 
 const fileDetailsGet = asyncHandler(async (req, res, next) => {
   const { user } = req;
@@ -47,19 +50,19 @@ const uploadFileToRootFolder = [
   asyncHandler(async (req, res) => {
     const { user, file } = req;
 
+    const { path: storageFilePath } = await uploadUserFileToStorage(user, file);
     const rootFolder = await prisma.folder.findFirst({
       where: {
         owner_id: user.id,
         is_root: true,
       },
     });
-
     await prisma.file.create({
       data: {
         name: file.originalname,
         size: file.size,
         mime_type: file.mimetype,
-        download_link: "/data/uploads/" + file.filename,
+        storage_file_path: storageFilePath,
         owner_id: user.id,
         parent_id: rootFolder.id,
       },
@@ -76,13 +79,14 @@ const uploadFile = [
     const { folderPathParams } = req.params;
 
     const parentFolder = await queryFolderFromPath(user.id, folderPathParams);
+    const { path: storageFilePath } = await uploadUserFileToStorage(user, file);
 
     await prisma.file.create({
       data: {
         name: file.originalname,
         size: file.size,
         mime_type: file.mimetype,
-        storage_file_path: `${user.storage_folder_id}/${file.originalname}`,
+        storage_file_path: storageFilePath,
         owner_id: user.id,
         parent_id: parentFolder.id,
       },

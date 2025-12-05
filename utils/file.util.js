@@ -1,3 +1,7 @@
+const storage = require("../config/storage");
+const { randomBytes } = require("crypto");
+const ValidationError = require("../errors/validation.error");
+
 const formatFileSize = function formatIntToFilesizeWithUnit(size) {
   const sizeScale = [
     {
@@ -41,6 +45,34 @@ const formatFilenameToUtf8 = (filename, initialEncoding = "latin1") => {
   return Buffer.from(filename, initialEncoding).toString("utf8");
 };
 
+const createUniqueFilename = (filename) => {
+  const timestamp = Date.now();
+  const randomString = randomBytes(8).toString("hex");
+  const filenameParts = filename.split(".");
+  const extension = filenameParts.pop();
+  const fileNameOnly = filenameParts.join(".");
+
+  return `${fileNameOnly}_${timestamp}_${randomString}.${extension}`;
+};
+
+const uploadUserFileToStorage = async (user, multerFile) => {
+  if (!multerFile) {
+    throw new ValidationError("No file uploaded");
+  }
+  const uniqueFilename = createUniqueFilename(multerFile.originalname);
+
+  const { data, error } = await storage.upload(
+    `${user.storage_folder_id}/${uniqueFilename}`,
+    multerFile.buffer,
+  );
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+};
+
 const sliceUrlEndPath = (originalUrl, step = 1) => {
   const hasUrlTrailingSlash = originalUrl.endsWith("/");
   const urlArray = hasUrlTrailingSlash
@@ -54,4 +86,10 @@ const sliceUrlEndPath = (originalUrl, step = 1) => {
   return hasUrlTrailingSlash ? urlArray.join("/") + "/" : urlArray.join("/");
 };
 
-module.exports = { formatFileSize, formatFilenameToUtf8, sliceUrlEndPath };
+module.exports = {
+  formatFileSize,
+  formatFilenameToUtf8,
+  createUniqueFilename,
+  uploadUserFileToStorage,
+  sliceUrlEndPath,
+};
