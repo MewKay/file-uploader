@@ -1,6 +1,7 @@
 const prisma = require("../config/prisma-client");
 const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcryptjs");
+const { randomUUID } = require("node:crypto");
 const { matchedData } = require("express-validator");
 const signUpValidator = require("../middlewares/validators/sign-up.validator");
 const signUpValidationHandler = require("../middlewares/validators/sign-up.handler");
@@ -21,11 +22,13 @@ const signUpPost = [
     const SALT = 10;
 
     const encryptedPassword = await bcrypt.hash(password, SALT);
+    const storageFolderId = randomUUID();
 
     const { id: newUserId } = await prisma.user.create({
       data: {
         username: username,
         password: encryptedPassword,
+        storage_folder_id: storageFolderId,
       },
     });
     await prisma.folder.create({
