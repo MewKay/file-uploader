@@ -1,8 +1,8 @@
 const asyncHandler = require("express-async-handler");
-const path = require("node:path");
 const { queryFileFromPath, querySharedFolder } = require("../utils/share.util");
 const NotFoundError = require("../errors/not-found.error");
 const prisma = require("../config/prisma-client");
+const { downloadUserFileFromStorage } = require("../utils/file.util");
 
 const shareGet = asyncHandler(async (req, res) => {
   const { publicFolderId, folderPathParams } = req.params;
@@ -32,7 +32,7 @@ const shareGet = asyncHandler(async (req, res) => {
   });
 
   res.render("share-index", {
-    folderPath: `${folderPathParams?.join("/")}`,
+    folderPath: folderPathParams?.join("/"),
     publicFolderId,
     currentFolder: {
       ...folder,
@@ -66,9 +66,18 @@ const downloadSharedFile = asyncHandler(async (req, res) => {
   const filePathParams = filepath.split("/");
 
   const file = await queryFileFromPath(publicFolderId, filePathParams);
-  const fileLocation = path.join(__dirname, "..", "public", file.download_link);
 
-  res.download(fileLocation, file.name);
+  if (!file) {
+    throw new NotFoundError("No such file found");
+  }
+
+  const fileBuffer = await downloadUserFileFromStorage(file);
+
+  res.setHeader("Content-Disposition", `attachement; filename="${file.name}"`);
+  res.setHeader("Content-Type", file.mime_type);
+  res.setHeader("Content-Length", fileBuffer.length);
+
+  res.send(fileBuffer);
 });
 
 module.exports = { shareGet, shareFileDetailsGet, downloadSharedFile };

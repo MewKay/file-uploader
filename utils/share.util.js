@@ -25,7 +25,7 @@ const querySharedFolder = async (publicFolderId, folderPathParams) => {
     return null;
   }
 
-  const isCurrentFolderRoot = !folderPathParams;
+  const isCurrentFolderRoot = !folderPathParams || folderPathParams.length <= 0;
   if (isCurrentFolderRoot) {
     return rootSharedFolder;
   }
