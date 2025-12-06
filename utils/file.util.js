@@ -73,6 +73,21 @@ const uploadUserFileToStorage = async (user, multerFile) => {
   return data;
 };
 
+const downloadUserFileFromStorage = async (userFileMeta) => {
+  const { data, error } = await storage.download(
+    userFileMeta.storage_file_path,
+  );
+
+  if (error) {
+    throw error;
+  }
+
+  const arrayBuffer = await data.arrayBuffer();
+  const buffer = Buffer.from(arrayBuffer);
+
+  return buffer;
+};
+
 const sliceUrlEndPath = (originalUrl, step = 1) => {
   const hasUrlTrailingSlash = originalUrl.endsWith("/");
   const urlArray = hasUrlTrailingSlash
@@ -91,5 +106,6 @@ module.exports = {
   formatFilenameToUtf8,
   createUniqueFilename,
   uploadUserFileToStorage,
+  downloadUserFileFromStorage,
   sliceUrlEndPath,
 };

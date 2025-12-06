@@ -1,4 +1,3 @@
-const path = require("node:path");
 const prisma = require("../config/prisma-client");
 const upload = require("../config/multer");
 const asyncHandler = require("express-async-handler");
@@ -9,6 +8,7 @@ const {
 const {
   sliceUrlEndPath,
   uploadUserFileToStorage,
+  downloadUserFileFromStorage,
 } = require("../utils/file.util");
 
 const fileDetailsGet = asyncHandler(async (req, res, next) => {
@@ -40,9 +40,13 @@ const downloadFile = asyncHandler(async (req, res) => {
     return res.status(404).render("not-found-index");
   }
 
-  const fileLocation = path.join(__dirname, "..", "public", file.download_link);
+  const fileBuffer = await downloadUserFileFromStorage(file);
 
-  res.download(fileLocation, file.name);
+  res.setHeader("Content-Disposition", `attachement; filename="${file.name}"`);
+  res.setHeader("Content-Type", file.mime_type);
+  res.setHeader("Content-Length", fileBuffer.length);
+
+  res.send(fileBuffer);
 });
 
 const uploadFileToRootFolder = [
