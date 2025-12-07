@@ -5,9 +5,14 @@ const prisma = require("../config/prisma-client");
 const { downloadUserFileFromStorage } = require("../utils/file.util");
 
 const shareGet = asyncHandler(async (req, res) => {
+  const { sharedRootFolder } = req;
   const { publicFolderId, folderPathParams } = req.params;
 
-  const folder = await querySharedFolder(publicFolderId, folderPathParams);
+  const folder = await querySharedFolder(
+    publicFolderId,
+    folderPathParams,
+    sharedRootFolder,
+  );
 
   if (!folder) {
     throw new NotFoundError("No such shared folder");
@@ -44,10 +49,15 @@ const shareGet = asyncHandler(async (req, res) => {
 });
 
 const shareFileDetailsGet = asyncHandler(async (req, res, next) => {
+  const { sharedRootFolder } = req;
   const { publicFolderId, folderPathParams } = req.params;
   const filePathParams = structuredClone(folderPathParams);
 
-  const file = await queryFileFromPath(publicFolderId, filePathParams);
+  const file = await queryFileFromPath(
+    publicFolderId,
+    filePathParams,
+    sharedRootFolder,
+  );
 
   if (!file) {
     return next();
@@ -61,11 +71,16 @@ const shareFileDetailsGet = asyncHandler(async (req, res, next) => {
 });
 
 const downloadSharedFile = asyncHandler(async (req, res) => {
+  const { sharedRootFolder } = req;
   const { publicFolderId } = req.params;
   const { filepath } = req.query;
   const filePathParams = filepath.split("/");
 
-  const file = await queryFileFromPath(publicFolderId, filePathParams);
+  const file = await queryFileFromPath(
+    publicFolderId,
+    filePathParams,
+    sharedRootFolder,
+  );
 
   if (!file) {
     throw new NotFoundError("No such file found");

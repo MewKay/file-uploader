@@ -1,25 +1,31 @@
 const prisma = require("../config/prisma-client");
 
-const querySharedFolder = async (publicFolderId, folderPathParams) => {
-  const rootSharedFolder = await prisma.folder.findFirst({
-    where: {
-      public: {
-        id: publicFolderId,
-      },
-    },
-    include: {
-      public: {
-        select: {
-          id: true,
+const querySharedFolder = async (
+  publicFolderId,
+  folderPathParams,
+  queriedRootFolder = null,
+) => {
+  const rootSharedFolder = queriedRootFolder
+    ? queriedRootFolder
+    : await prisma.folder.findFirst({
+        where: {
+          public: {
+            id: publicFolderId,
+          },
         },
-      },
-      owner: {
-        select: {
-          username: true,
+        include: {
+          public: {
+            select: {
+              id: true,
+            },
+          },
+          owner: {
+            select: {
+              username: true,
+            },
+          },
         },
-      },
-    },
-  });
+      });
 
   if (!rootSharedFolder) {
     return null;
@@ -67,7 +73,11 @@ const querySharedFolder = async (publicFolderId, folderPathParams) => {
   return lastPathFolder;
 };
 
-const queryFileFromPath = async (publicFolderId, filePathParams) => {
+const queryFileFromPath = async (
+  publicFolderId,
+  filePathParams,
+  queriedRootFolder = null,
+) => {
   const fileName = filePathParams?.pop();
   const isPathForFiles = !fileName ? false : true;
 
@@ -75,7 +85,11 @@ const queryFileFromPath = async (publicFolderId, filePathParams) => {
     return null;
   }
 
-  const parentFolder = await querySharedFolder(publicFolderId, filePathParams);
+  const parentFolder = await querySharedFolder(
+    publicFolderId,
+    filePathParams,
+    queriedRootFolder,
+  );
 
   if (!parentFolder) {
     return null;
