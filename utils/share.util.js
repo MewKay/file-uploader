@@ -1,3 +1,4 @@
+const { isPast } = require("date-fns");
 const prisma = require("../config/prisma-client");
 
 const querySharedFolder = async (
@@ -105,4 +106,48 @@ const queryFileFromPath = async (
   return file;
 };
 
-module.exports = { querySharedFolder, queryFileFromPath };
+const getSharedFolderModel = (sharedFolder) => {
+  if (sharedFolder.public) {
+    return "folder";
+  }
+
+  if (sharedFolder.expires_at) {
+    return "public_folder";
+  }
+
+  return false;
+};
+
+const checkSharedFolderExpiry = async (sharedFolder) => {
+  const sharedFolderModel = getSharedFolderModel(sharedFolder);
+
+  if (!sharedFolderModel) {
+    throw new Error("Invalid folder model");
+  }
+
+  const expirationDate =
+    sharedFolderModel === "folder"
+      ? sharedFolder.public.expires_at
+      : sharedFolder.expires_at;
+
+  if (!isPast(expirationDate)) {
+    return false;
+  }
+
+  const sharedFolderPublicId =
+    sharedFolderModel === "folder" ? sharedFolder.public.id : sharedFolder.id;
+
+  await prisma.publicFolder.delete({
+    where: {
+      id: sharedFolderPublicId,
+    },
+  });
+
+  return true;
+};
+
+module.exports = {
+  querySharedFolder,
+  queryFileFromPath,
+  checkSharedFolderExpiry,
+};

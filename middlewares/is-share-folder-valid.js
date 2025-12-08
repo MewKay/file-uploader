@@ -1,6 +1,6 @@
 const prisma = require("../config/prisma-client");
-const { isPast } = require("date-fns");
 const NotFoundError = require("../errors/not-found.error");
+const { checkSharedFolderExpiry } = require("../utils/share.util");
 
 const isShareFolderValid = async (req, res, next) => {
   const { publicFolderId } = req.params;
@@ -34,13 +34,9 @@ const isShareFolderValid = async (req, res, next) => {
     throw new NotFoundError("No such shared folder");
   }
 
-  if (isPast(sharedFolder.public.expires_at)) {
-    await prisma.publicFolder.delete({
-      where: {
-        id: publicFolderId,
-      },
-    });
+  const hasSharedFolderExpired = await checkSharedFolderExpiry(sharedFolder);
 
+  if (hasSharedFolderExpired) {
     throw new NotFoundError("No such shared folder");
   }
 
