@@ -107,6 +107,10 @@ const queryFileFromPath = async (
 };
 
 const getSharedFolderModel = (sharedFolder) => {
+  if (!sharedFolder) {
+    return false;
+  }
+
   if (sharedFolder.public) {
     return "folder";
   }
@@ -122,7 +126,7 @@ const checkSharedFolderExpiry = async (sharedFolder) => {
   const sharedFolderModel = getSharedFolderModel(sharedFolder);
 
   if (!sharedFolderModel) {
-    throw new Error("Invalid folder model");
+    return false;
   }
 
   const expirationDate =

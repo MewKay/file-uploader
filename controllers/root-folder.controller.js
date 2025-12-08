@@ -4,11 +4,12 @@ const asyncHandler = require("express-async-handler");
 
 const fileConstraints = require("../constants/file-constraints");
 const { formatFileSize, sliceUrlEndPath } = require("../utils/file.util");
+const { checkSharedFolderExpiry } = require("../utils/share.util");
 const addRequestContext = require("../middlewares/addRequestContext");
 const folderNameValidator = require("../middlewares/validators/folder-name.validator");
 const folderNameValidationHandler = require("../middlewares/validators/folder-name.handler");
 const { randomUUID } = require("node:crypto");
-const { addDays } = require("date-fns");
+const { addDays, formatDistanceToNowStrict } = require("date-fns");
 const NotFoundError = require("../errors/not-found.error");
 
 const folderGet = asyncHandler(async (req, res) => {
@@ -21,7 +22,7 @@ const folderGet = asyncHandler(async (req, res) => {
     return res.status(404).render("not-found-index");
   }
 
-  const sharedFolderStatus = await prisma.publicFolder.findUnique({
+  let sharedFolderStatus = await prisma.publicFolder.findUnique({
     where: {
       owner_id: user.id,
     },
@@ -29,6 +30,21 @@ const folderGet = asyncHandler(async (req, res) => {
       folder: true,
     },
   });
+
+  const hasSharedFolderExpired =
+    await checkSharedFolderExpiry(sharedFolderStatus);
+
+  if (hasSharedFolderExpired) {
+    sharedFolderStatus = null;
+  }
+
+  if (sharedFolderStatus) {
+    const distanceSharedFolderExpiry = `expires in ${formatDistanceToNowStrict(sharedFolderStatus.expires_at)}`;
+    sharedFolderStatus = {
+      ...sharedFolderStatus,
+      distanceExpiry: distanceSharedFolderExpiry,
+    };
+  }
 
   const currentFolderList = await prisma.folder.findMany({
     where: {
