@@ -1,3 +1,6 @@
+const { shouldLimitModalBeDisplayed } = imports;
+console.log(shouldLimitModalBeDisplayed);
+
 const limitButton = document.querySelector(".limit-button");
 const limitModal = document.querySelector(".limit-modal");
 const confirmLimitButton = document.querySelector(".confirm-limit");
@@ -5,6 +8,9 @@ const closeLimitModalButton = document.querySelector(
   ".limit-modal .close-modal-button",
 );
 
+window.addEventListener("DOMContentLoaded", () => {
+  if (shouldLimitModalBeDisplayed) limitModal.showModal();
+});
 limitButton.addEventListener("click", () => {
   limitModal.showModal();
 });

@@ -64,12 +64,26 @@ const folderGet = asyncHandler(async (req, res) => {
     },
   });
 
+  let shouldLimitModalBeDisplayed = false;
+  if (user.first_time_logged) {
+    shouldLimitModalBeDisplayed = true;
+    await prisma.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        first_time_logged: false,
+      },
+    });
+  }
+
   res.render("files-index", {
     fileUtils: {
       fileConstraints,
       formatFileSize,
     },
     folderPath: folderPathParams?.join("/"),
+    shouldLimitModalBeDisplayed,
     sharedFolderStatus,
     sharedFolderFullUrl: getFullUrl(`/share/${sharedFolderStatus?.id}/`),
     currentFolder,
