@@ -15,7 +15,7 @@ const shareGet = asyncHandler(async (req, res) => {
   );
 
   if (!folder) {
-    throw new NotFoundError("No such shared folder");
+    return res.status(404).render("not-found-index", { isSharedRoute: true });
   }
 
   const currentFolderList = await prisma.folder.findMany({

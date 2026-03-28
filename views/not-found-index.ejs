@@ -18,7 +18,11 @@
           The file or folder you requested has been moved, deleted, or has never
           been created
         </p>
+        <% if (!locals.isSharedRoute) { %>
         <a href="/files/">Return to root folder</a>
+        <% } else { %>
+        <a href="/log-in">Log in to your account</a>
+        <% } %>
       </div>
     </main>
   </body>
